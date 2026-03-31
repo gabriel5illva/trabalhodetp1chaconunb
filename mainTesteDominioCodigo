@@ -1,0 +1,15 @@
+#include <iostream>
+#include "codigo.hpp"
+
+using namespace std;
+
+int main()
+{
+    Codigo* pointer = new Codigo();
+    if (pointer->setCodigo("AB123"))
+        std::cout<<"Valor armazenado"<< endl;
+    else
+        std::cout<<"Valor nao armazenado"<<endl;
+
+    delete pointer;
+}
