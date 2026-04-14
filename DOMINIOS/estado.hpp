@@ -2,6 +2,8 @@
 #define ESTADO_HPP_INCLUDED
 #include <string>
 
+using namespace std;
+
 class Estado{
     private:
         string estado;
@@ -11,7 +13,7 @@ class Estado{
         string getEstado();
 };
 
-inline string getEstado(){
+inline string Estado::getEstado(){
     return estado;
 }
 
