@@ -1,6 +1,7 @@
 #include "nome.hpp"
 #include <string>
 #include <cctype>
+#include <stdexcept>
 
 bool apenasLetras(string nome){
     for (char c : nome){
@@ -41,8 +42,7 @@ bool Nome::validar(string nome){
 
 bool Nome::setNome(string nome){
     if(!validar(nome))
-        return false;
-
+        throw invalid_argument("Formato de Nome invalido.");
     this->nome = nome;
     return true;
 }

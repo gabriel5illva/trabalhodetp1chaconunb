@@ -7,9 +7,9 @@ using namespace std;
 class Email{
     private:
             string email;
-            bool validar(string);
             const int tamanhoMaxParteLocal = 64;
             const int tamanhoMaxParteDominio = 255;
+            bool validar(string);
     public:
             bool setEmail(string);
             string getEmail();

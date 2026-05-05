@@ -1,6 +1,7 @@
 #include "texto.hpp"
 #include <string>
 #include <cctype>
+#include <stdexcept>
 
 using namespace std;
 
@@ -42,7 +43,7 @@ bool Texto::validar(string texto){
 
 bool Texto::setTexto(string texto){
     if (!validar(texto))
-        return false;
+        throw invalid_argument("Formato de Texto invalido.");
     this->texto = texto;
     return true;
 }

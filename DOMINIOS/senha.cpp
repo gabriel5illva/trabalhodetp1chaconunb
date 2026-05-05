@@ -1,5 +1,6 @@
 #include "senha.hpp"
 #include <cctype>
+#include <stdexcept>
 
 using namespace std;
 
@@ -53,8 +54,7 @@ bool Senha::validar(string senha){
 
 bool Senha::setSenha(string senha){
     if(!validar(senha))
-        return false;
-
+        throw invalid_argument("Formato de Senha invalido.");
     this->senha = senha;
     return true;
 }

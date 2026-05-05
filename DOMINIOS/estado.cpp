@@ -1,13 +1,16 @@
-#include "C:\Users\vitao\OneDrive\Área de Trabalho\ProjetoTP1\DOMINIOS\estado.hpp"
+#include "estado.hpp"
 #include <string>
+#include <stdexcept>
 
 bool Estado::validar(string estado){
-    return estado == "A FAZER" || estado == "FAZENDO" || estado == "FEITO";
+    return estado == "A FAZER" ||
+           estado == "FAZENDO" ||
+           estado == "FEITO";
 }
 
 bool Estado::setEstado(string estado){
     if(!validar(estado))
-        return false;
+        throw invalid_argument("Formato de Estado invalido.");
     this->estado = estado;
     return true;
 }
