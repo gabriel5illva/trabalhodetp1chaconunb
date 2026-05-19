@@ -16,3 +16,7 @@ bool ServicoProjeto::atualizar(const Projeto &) {
 bool ServicoProjeto::excluir(const Codigo &) {
     return true;
 }
+
+bool ServicoProjeto::listarPorPessoa(const Email &) {
+    return true;
+}
