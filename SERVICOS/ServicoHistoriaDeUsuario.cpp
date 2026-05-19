@@ -25,6 +25,22 @@ bool ServicoHistoriaDeUsuario::removerPessoa(const Codigo &, const Email &) {
     return true;
 }
 
+bool ServicoHistoriaDeUsuario::listarPorProjeto(const Codigo &) {
+    return true;
+}
+
+bool ServicoHistoriaDeUsuario::listarPorPlanoDeSprint(const Codigo &) {
+    return true;
+}
+
+bool ServicoHistoriaDeUsuario::listarPorPessoa(const Email &) {
+    return true;
+}
+
+bool ServicoHistoriaDeUsuario::moverParaPlanoDeSprint(const Codigo &, const Codigo &, const Codigo &) {
+    return true;
+}
+
 bool ServicoHistoriaDeUsuario::alterarEstado(const Codigo &, const Estado &) {
     return true;
 }
