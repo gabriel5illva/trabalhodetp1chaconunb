@@ -16,3 +16,7 @@ bool ServicoPlanoDeSprint::atualizar(const PlanoDeSprint &) {
 bool ServicoPlanoDeSprint::excluir(const Codigo &) {
     return true;
 }
+
+bool ServicoPlanoDeSprint::listarPorProjeto(const Codigo &) {
+    return true;
+}
