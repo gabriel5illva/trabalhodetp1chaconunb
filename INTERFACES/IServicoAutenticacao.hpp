@@ -3,6 +3,8 @@
 
 #include "../DOMINIOS/Email.hpp"
 #include "../DOMINIOS/Senha.hpp"
+#include "../DOMINIOS/Nome.hpp"
+#include "../DOMINIOS/Papel.hpp"
 
 /**
  * @class IServicoAutenticacao
@@ -21,8 +23,22 @@ public:
      * @param senha Senha informada pelo usu&aacute;rio.
      * @return true se a autentica&ccedil;&atilde;o for realizada com sucesso.
      */
-    virtual bool autenticar(const Email &email, const Senha &senha) = 0;
+    virtual bool autenticar(const Email &email,
+                            const Senha &senha) = 0;
 
+    /**
+     * @brief Castra um usu&aacute;rio no sistema.
+     *
+     * @param email Email informado pelo usu&aacute;rio.
+     * @param senha Senha informada pelo usu&aacute;rio.
+     * @param nome Nome informada pelo usu&aacute;rio.
+     * @param Papel Papel informada pelo usu&aacute;rio.
+     * @return true se a autentica&ccedil;&atilde;o for realizada com sucesso.
+     */
+    virtual bool cadastrar(const Email &email,
+                           const Senha &senha,
+                           const Nome &nome,
+                           const Papel &papel) = 0;
     /**
      * @brief Destrutor virtual da interface.
      */
