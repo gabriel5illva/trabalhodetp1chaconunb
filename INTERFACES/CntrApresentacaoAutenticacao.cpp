@@ -30,8 +30,8 @@ void CntrApresentacaoAutenticacao::autenticar(
         Email email;
         Senha senha;
 
-        email.setValor(textoEmail);
-        senha.setValor(textoSenha);
+        email.setEmail(textoEmail);
+        senha.setSenha(textoSenha);
 
         bool autenticado =
             ponteiroServico->autenticar(
@@ -64,44 +64,64 @@ void CntrApresentacaoAutenticacao::cadastrar(
     cout << "Nome: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, textoNome);
+    Nome nome;
+
+    try {
+        nome.setNome(textoNome);
+    }
+    catch (const invalid_argument& e) {
+        cout << "\nErro: " << e.what() << endl;
+        return;
+    }
 
     cout << "Email: ";
     getline(cin, textoEmail);
+    Email email;
+
+    try {
+        email.setEmail(textoEmail);
+    }
+    catch (const invalid_argument& e) {
+        cout << "\nErro: " << e.what() << endl;
+        return;
+    }
 
     cout << "Senha: ";
     getline(cin, textoSenha);
-
-    cout << "Papel: ";
-    getline(cin, textoPapel);
+    Senha senha;
 
     try {
-        Nome nome;
-        Email email;
-        Senha senha;
-        Papel papel;
-
-        nome.setValor(textoNome);
-        email.setValor(textoEmail);
-        senha.setValor(textoSenha);
-        papel.setValor(textoPapel);
-
-        bool cadastrado =
-            ponteiroServico->cadastrar(
-                email,
-                senha,
-                nome,
-                papel
-            );
-
-        if (cadastrado) {
-            cout << "\nCadastro realizado com sucesso." << endl;
-        }
-        else {
-            cout << "\nNao foi possivel realizar o cadastro." << endl;
-        }
+        senha.setSenha(textoSenha);
     }
-    catch (...) {
-        cout << "\nDados invalidos." << endl;
+    catch (const invalid_argument& e) {
+        cout << "\nErro: " << e.what() << endl;
+        return;
+    }
+
+    try {
+        textoPapel = selecionarPapel();
+    }
+    catch (const invalid_argument& e) {
+        cout << "\nErro: " << e.what() << endl;
+        return;
+    }
+
+    Papel papel;
+    papel.setPapel(textoPapel);
+
+    bool cadastrado =
+    ponteiroServico->cadastrar(
+        email,
+        senha,
+        nome,
+        papel
+        );
+
+    if(cadastrado){
+            cout << "\nCadastro realizado com sucesso" << endl;
+    }
+    else{
+        cout << "\nNao foi possivel realizar o cadastro" << endl;
     }
 }
 
@@ -139,4 +159,30 @@ void CntrApresentacaoAutenticacao::executar(
         }
 
     } while (opcao != 0);
+}
+
+string CntrApresentacaoAutenticacao::selecionarPapel() {
+    int opcao;
+
+    cout << "\nPapel:" << endl;
+    cout << "1 - DESENVOLVEDOR" << endl;
+    cout << "2 - MESTRE SCRUM" << endl;
+    cout << "3 - PROPRIETARIO DE PRODUTO" << endl;
+    cout << "Opcao: ";
+
+    cin >> opcao;
+
+    switch (opcao) {
+        case 1:
+            return "DESENVOLVEDOR";
+
+        case 2:
+            return "MESTRE SCRUM";
+
+        case 3:
+            return "PROPRIETARIO DE PRODUTO";
+
+        default:
+            throw invalid_argument("Papel invalido");
+    }
 }

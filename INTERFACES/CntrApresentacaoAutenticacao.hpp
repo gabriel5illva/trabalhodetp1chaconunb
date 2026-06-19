@@ -3,8 +3,9 @@
 
 #include "IApresentacaoAutenticacao.hpp"
 
-class CntrApresentacaoAutenticacao :
-    public IApresentacaoAutenticacao {
+class CntrApresentacaoAutenticacao : public IApresentacaoAutenticacao {
+private:
+    string selecionarPapel();
 
 public:
     void autenticar(
