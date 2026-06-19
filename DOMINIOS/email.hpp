@@ -7,20 +7,20 @@ using namespace std;
 
 /**
  * @class Email
- * @brief Representa um endereco de email do sistema.
+ * @brief Representa um endere&ccedil;o de email do sistema.
  *
- * Esta classe armazena e valida um endereco de email
- * de acordo com as regras estabelecidas para o dominio.
+ * Esta classe armazena e valida um endere&ccedil;o de email
+ * de acordo com as regras estabelecidas para o dom&iacute;nio.
  *
- * parte-local@domínio
- * Parte local pode conter letra (a-z), dígito (0-9) ou ponto(.) ou hífen (-);
- * Não pode iniciar ou terminar com ponto ou hífen;
- * Ponto ou hífen deve ser seguido por letra(s) ou dígito(s);
- * Comprimento máximo é 64 caracteres.
- * Domínio é composto por uma ou mais partes separadas por ponto (.);
- * Cada parte pode conter letra (a-z), dígito (0-9) ou hífen (-);
- * Não pode iniciar ou terminar com hífen;
- * Comprimento máximo é 255 caracteres.
+ * parte-local@dom&iacute;nio
+ * Parte local pode conter letra (a-z), d&iacute;gito (0-9) ou ponto(.) ou h&iacute;fen (-);
+ * N&atilde;o pode iniciar ou terminar com ponto ou h&iacute;fen;
+ * Ponto ou h&iacute;fen deve ser seguido por letra(s) ou d&iacute;gito(s);
+ * Comprimento m&aacute;ximo &eacute; 64 caracteres.
+ * Dom&iacute;nio &eacute; composto por uma ou mais partes separadas por ponto (.);
+ * Cada parte pode conter letra (a-z), d&iacute;gito (0-9) ou h&iacute;fen (-);
+ * N&atilde;o pode iniciar ou terminar com h&iacute;fen;
+ * Comprimento m&aacute;ximo &eacute; 255 caracteres.
  *
  */
 class Email {
@@ -28,25 +28,25 @@ private:
     string email;
 
     /**
-     * @brief Tamanho maximo permitido para a parte local do email.
+     * @brief Tamanho m&aacute;ximo permitido para a parte local do email.
      */
-    const int tamanhoMaxParteLocal = 64;
+    static const int tamanhoMaxParteLocal = 64;
 
     /**
-     * @brief Tamanho maximo permitido para a parte de dominio do email.
+     * @brief Tamanho m&aacute;ximo permitido para a parte de dom&iacute;nio do email.
      */
-    const int tamanhoMaxParteDominio = 255;
+    static const int tamanhoMaxParteDominio = 255;
 
     /**
-     * @brief Valida o endereco de email informado.
+     * @brief Valida o endere&ccedil;o de email informado.
      *
      * Verifica se o valor recebido atende as regras
-     * estabelecidas para o dominio Email.
+     * estabelecidas para o dom&iacute;nio Email.
      *
-     * @param email String contendo o endereco de email a ser validado.
+     * @param email String contendo o endere&ccedil;o de email a ser validado.
      *
-     * @return true caso o email seja valido.
-     * @return false caso o email seja invalido.
+     * @return true caso o email seja v&aacute;lido.
+     * @return false caso o email seja inv&aacute;lido.
      */
     bool validar(string);
 
@@ -54,30 +54,30 @@ public:
     /**
      * @brief Define o valor do email.
      *
-     * O valor informado sera atribuido ao atributo
-     * somente se passar pela validacao.
+     * O valor informado ser&aacute; atribu&iacute;do ao atributo
+     * somente se passar pela valida&ccedil;&atilde;o.
      *
-     * @param email String contendo o endereco de email a ser armazenado.
+     * @param email String contendo o endere&ccedil;o de email a ser armazenado.
      *
-     * @return true caso o email seja valido e armazenado.
-     * @return false caso o email seja invalido.
+     * @return true caso o email seja v&aacute;lido e armazenado.
+     * @return false caso o email seja inv&aacute;lido.
      */
     bool setEmail(string);
 
     /**
-     * @brief Retorna o endereco de email armazenado.
+     * @brief Retorna o endere&ccedil;o de email armazenado.
      *
-     * @return String contendo o endereco de email.
+     * @return String contendo o endere&ccedil;o de email.
      */
-    string getEmail();
+    string getEmail() const;
 };
 
 /**
- * @brief Implementacao inline do metodo getEmail.
+ * @brief Implementa&ccedil;&atilde;o inline do m&eacute;todo getEmail.
  *
- * @return String contendo o endereco de email armazenado.
+ * @return String contendo o endere&ccedil;o de email armazenado.
  */
-inline string Email::getEmail() {
+inline string Email::getEmail()const{
     return email;
 }
 

@@ -10,13 +10,13 @@ using namespace std;
  * @brief Representa um nome no sistema.
  *
  * Esta classe armazena e valida um nome de acordo
- * com as regras estabelecidas para o dominio nome.
+ * com as regras estabelecidas para o dom&iacute;nio nome.
  *
- * Texto com até 10 caracteres.
- * Caracter pode ser letra maiúscula (A-Z), letra minúscula (a-z) ou espaço em branco;
- * Espaço em branco é seguido por letra;
- * Primeiro caracter não pode ser espaço em branco;
- * Último caracter não pode ser espaço em branco.
+ * Texto com at&eacute; 10 caracteres.
+ * Caracter pode ser letra mai&uacute;scula (A-Z), letra min&uacute;scula (a-z) ou espa&ccedil;o em branco;
+ * Espa&ccedil;o em branco &eacute; seguido por letra;
+ * Primeiro caracter n&atilde;o pode ser espa&ccedil;o em branco;
+ * &Uacute;ltimo caracter n&atilde;o pode ser espa&ccedil;o em branco.
  *
  */
 class Nome {
@@ -27,12 +27,12 @@ private:
      * @brief Valida o nome informado.
      *
      * Verifica se o valor recebido atende as regras
-     * estabelecidas para o dominio Nome.
+     * estabelecidas para o dom&iacute;nio Nome.
      *
      * @param nome String contendo o nome a ser validado.
      *
-     * @return true caso o nome seja valido.
-     * @return false caso o nome seja invalido.
+     * @return true caso o nome seja v&aacute;lido.
+     * @return false caso o nome seja inv&aacute;lido.
      */
     bool validar(string);
 
@@ -40,13 +40,13 @@ public:
     /**
      * @brief Define o valor do nome.
      *
-     * O valor informado sera atribuido ao atributo
-     * somente se passar pela validacao.
+     * O valor informado ser&aacute; atribu&iacute;do ao atributo
+     * somente se passar pela valida&ccedil;&atilde;o.
      *
      * @param nome String contendo o nome a ser armazenado.
      *
-     * @return true caso o nome seja valido e armazenado.
-     * @return false caso o nome seja invalido.
+     * @return true caso o nome seja v&aacute;lido e armazenado.
+     * @return false caso o nome seja inv&aacute;lido.
      */
     bool setNome(string);
 
@@ -55,15 +55,15 @@ public:
      *
      * @return String contendo o nome armazenado.
      */
-    string getNome();
+    string getNome() const;
 };
 
 /**
- * @brief Implementacao inline do metodo getNome.
+ * @brief Implementa&ccedil;&atilde;o inline do m&eacute;todo getNome.
  *
  * @return String contendo o nome armazenado.
  */
-inline string Nome::getNome() {
+inline string Nome::getNome() const{
     return nome;
 }
 

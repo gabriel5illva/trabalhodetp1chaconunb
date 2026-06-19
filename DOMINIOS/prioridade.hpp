@@ -10,7 +10,7 @@ using namespace std;
  * @brief Representa a prioridade de uma entidade do sistema.
  *
  * Esta classe armazena e valida uma prioridade de acordo
- * com as regras estabelecidas para o dominio.
+ * com as regras estabelecidas para o dom&iacute;nio.
  *
  * Prioridade pode ser:
  * ALTA, MEDIA, BAIXA
@@ -24,12 +24,12 @@ private:
      * @brief Valida a prioridade informada.
      *
      * Verifica se o valor recebido atende as regras
-     * estabelecidas para o dominio Prioridade.
+     * estabelecidas para o dom&iacute;nio Prioridade.
      *
      * @param prioridade String contendo a prioridade a ser validada.
      *
-     * @return true caso a prioridade seja valida.
-     * @return false caso a prioridade seja invalida.
+     * @return true caso a prioridade seja v&aacute;lida.
+     * @return false caso a prioridade seja inv&aacute;lida.
      */
     bool validar(string);
 
@@ -37,13 +37,13 @@ public:
     /**
      * @brief Define o valor da prioridade.
      *
-     * O valor informado sera atribuido ao atributo
-     * somente se passar pela validacao.
+     * O valor informado ser&aacute; atribu&iacute;do ao atributo
+     * somente se passar pela valida&ccedil;&atilde;o.
      *
      * @param prioridade String contendo a prioridade a ser armazenada.
      *
-     * @return true caso a prioridade seja valida e armazenada.
-     * @return false caso a prioridade seja invalida.
+     * @return true caso a prioridade seja v&aacute;lida e armazenada.
+     * @return false caso a prioridade seja inv&aacute;lida.
      */
     bool setPrioridade(string);
 
@@ -52,15 +52,15 @@ public:
      *
      * @return String contendo a prioridade armazenada.
      */
-    string getPrioridade();
+    string getPrioridade() const;
 };
 
 /**
- * @brief Implementacao inline do metodo getPrioridade.
+ * @brief Implementa&ccedil;&atilde;o inline do m&eacute;todo getPrioridade.
  *
  * @return String contendo a prioridade armazenada.
  */
-inline string Prioridade::getPrioridade() {
+inline string Prioridade::getPrioridade() const{
     return prioridade;
 }
 

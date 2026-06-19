@@ -10,7 +10,7 @@ using namespace std;
  * @brief Representa o estado de uma entidade do sistema.
  *
  * Esta classe armazena e valida um estado de acordo
- * com as regras estabelecidas para o dominio.
+ * com as regras estabelecidas para o dom&iacute;nio.
  *
  * Estado pode ser:
  * A FAZER, FAZENDO, FEITO
@@ -24,12 +24,12 @@ private:
      * @brief Valida o estado informado.
      *
      * Verifica se o valor recebido atende as regras
-     * estabelecidas para o dominio Estado.
+     * estabelecidas para o dom&iacute;nio Estado.
      *
      * @param estado String contendo o estado a ser validado.
      *
-     * @return true caso o estado seja valido.
-     * @return false caso o estado seja invalido.
+     * @return true caso o estado seja v&aacute;lido.
+     * @return false caso o estado seja inv&aacute;lido.
      */
     bool validar(string);
 
@@ -37,13 +37,13 @@ public:
     /**
      * @brief Define o valor do estado.
      *
-     * O valor informado sera atribuido ao atributo
-     * somente se passar pela validacao.
+     * O valor informado ser&aacute; atribu&iacute;do ao atributo
+     * somente se passar pela valida&ccedil;&atilde;o.
      *
      * @param estado String contendo o estado a ser armazenado.
      *
-     * @return true caso o estado seja valido e armazenado.
-     * @return false caso o estado seja invalido.
+     * @return true caso o estado seja v&aacute;lido e armazenado.
+     * @return false caso o estado seja inv&aacute;lido.
      */
     bool setEstado(string);
 
@@ -52,15 +52,15 @@ public:
      *
      * @return String contendo o estado armazenado.
      */
-    string getEstado();
+    string getEstado() const;
 };
 
 /**
- * @brief Implementacao inline do metodo getEstado.
+ * @brief Implementa&ccedil;&atilde;o inline do m&eacute;todo getEstado.
  *
  * @return String contendo o estado armazenado.
  */
-inline string Estado::getEstado() {
+inline string Estado::getEstado() const{
     return estado;
 }
 

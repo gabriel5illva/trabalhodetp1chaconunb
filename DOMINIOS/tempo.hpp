@@ -7,9 +7,9 @@
  *
  * Esta classe armazena e valida um valor inteiro
  * correspondente a tempo, de acordo com as regras
- * estabelecidas para o dominio.
+ * estabelecidas para o dom&iacute;nio.
  *
- * Número de 1 a 365
+ * N&uacute;mero de 1 a 365
  *
  */
 class Tempo {
@@ -20,12 +20,12 @@ private:
      * @brief Valida o valor de tempo informado.
      *
      * Verifica se o valor recebido atende as regras
-     * estabelecidas para o dominio Tempo.
+     * estabelecidas para o dom&iacute;nio Tempo.
      *
      * @param tempo Valor inteiro correspondente ao tempo.
      *
-     * @return true caso o tempo seja valido.
-     * @return false caso o tempo seja invalido.
+     * @return true caso o tempo seja v&aacute;lido.
+     * @return false caso o tempo seja inv&aacute;lido.
      */
     bool validar(int);
 
@@ -33,13 +33,13 @@ public:
     /**
      * @brief Define o valor do tempo.
      *
-     * O valor informado sera atribuido ao atributo
-     * somente se passar pela validacao.
+     * O valor informado ser&aacute; atribu&iacute;do ao atributo
+     * somente se passar pela valida&ccedil;&atilde;o.
      *
      * @param tempo Valor inteiro correspondente ao tempo.
      *
-     * @return true caso o tempo seja valido e armazenado.
-     * @return false caso o tempo seja invalido.
+     * @return true caso o tempo seja v&aacute;lido e armazenado.
+     * @return false caso o tempo seja inv&aacute;lido.
      */
     bool setTempo(int);
 
@@ -48,15 +48,15 @@ public:
      *
      * @return Valor inteiro correspondente ao tempo armazenado.
      */
-    int getTempo();
+    int getTempo() const;
 };
 
 /**
- * @brief Implementacao inline do metodo getTempo.
+ * @brief Implementa&ccedil;&atilde;o inline do m&eacute;todo getTempo.
  *
  * @return Valor inteiro correspondente ao tempo armazenado.
  */
-inline int Tempo::getTempo() {
+inline int Tempo::getTempo() const{
     return tempo;
 }
 

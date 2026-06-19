@@ -7,14 +7,14 @@ using namespace std;
 
 /**
  * @class Codigo
- * @brief Representa o codigo identificador de uma entidade do sistema.
+ * @brief Representa o c&oacute;digo identificador de uma entidade do sistema.
  *
- * Esta classe armazena e valida um codigo no formato definido
- * pelas regras de negocio do dominio:
+ * Esta classe armazena e valida um c&oacute;digo no formato definido
+ * pelas regras de neg&oacute;cio do dom&iacute;nio:
  *
  * 5 caracteres
- * Sendo letras maiúsculas (A-Z) os dois primeiros caracteres.
- * Sendo dígitos (0-9) os três últimos caracteres
+ * Sendo letras mai&uacute;sculas (A-Z) os dois primeiros caracteres.
+ * Sendo d&iacute;gitos (0-9) os tr&ecirc;s &uacute;ltimos caracteres
  *
  */
 class Codigo {
@@ -22,46 +22,46 @@ private:
     string codigo;
 
     /**
-     * @brief Valida o codigo informado.
+     * @brief Valida o c&oacute;digo informado.
      *
      * Verifica se o valor recebido atende as regras de formato
-     * estabelecidas para o dominio Codigo.
+     * estabelecidas para o dom&iacute;nio Codigo.
      *
-     * @param codigo String contendo o codigo a ser validado.
+     * @param codigo String contendo o c&oacute;digo a ser validado.
      *
-     * @return true caso o codigo seja valido.
-     * @return false caso o codigo seja invalido.
+     * @return true caso o c&oacute;digo seja v&aacute;lido.
+     * @return false caso o c&oacute;digo seja inv&aacute;lido.
      */
     bool validar(string);
 
 public:
     /**
-     * @brief Define o valor do codigo.
+     * @brief Define o valor do c&oacute;digo.
      *
-     * O valor informado sera atribuido ao atributo somente
-     * se passar pela validacao.
+     * O valor informado ser&aacute; atribu&iacute;do ao atributo somente
+     * se passar pela valida&ccedil;&atilde;o.
      *
-     * @param codigo String contendo o codigo a ser armazenado.
+     * @param codigo String contendo o c&oacute;digo a ser armazenado.
      *
-     * @return true caso o codigo seja valido e armazenado.
-     * @return false caso o codigo seja invalido.
+     * @return true caso o c&oacute;digo seja v&aacute;lido e armazenado.
+     * @return false caso o c&oacute;digo seja inv&aacute;lido.
      */
     bool setCodigo(string);
 
     /**
-     * @brief Retorna o valor do codigo.
+     * @brief Retorna o valor do c&oacute;digo.
      *
-     * @return String contendo o codigo armazenado.
+     * @return String contendo o c&oacute;digo armazenado.
      */
-    string getCodigo();
+    string getCodigo() const;
 };
 
 /**
- * @brief Implementacao inline do metodo getCodigo.
+ * @brief Implementa&ccedil;&atilde;o inline do m&eacute;todo getCodigo.
  *
- * @return String contendo o codigo armazenado.
+ * @return String contendo o c&oacute;digo armazenado.
  */
-inline string Codigo::getCodigo() {
+inline string Codigo::getCodigo() const{
     return codigo;
 }
 

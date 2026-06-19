@@ -10,14 +10,14 @@ using namespace std;
  * @brief Representa um texto no sistema.
  *
  * Esta classe armazena e valida um texto de acordo
- * com as regras estabelecidas para o dominio.
+ * com as regras estabelecidas para o dom&iacute;nio.
  *
- * Texto com até 40 caracteres.
- * Caracter pode ser letra (a-z ou A-Z), dígito (0-9), vírgula, ponto ou espaço em branco;
- * Vírgula não pode ser seguida por vírgula ou ponto;
- * Ponto não pode ser seguido por vírgula ou ponto;
- * Espaço em branco é seguido por letra ou dígito;
- * Primeiro e último caracter não pode ser vírgula, ponto ou espaço em branco.
+ * Texto com at&eacute; 40 caracteres.
+ * Caracter pode ser letra (a-z ou A-Z), d&iacute;gito (0-9), v&iacute;rgula, ponto ou espa&ccedil;o em branco;
+ * V&iacute;rgula n&atilde;o pode ser seguida por v&iacute;rgula ou ponto;
+ * Ponto n&atilde;o pode ser seguido por v&iacute;rgula ou ponto;
+ * Espa&ccedil;o em branco &eacute; seguido por letra ou d&iacute;gito;
+ * Primeiro e &uacute;ltimo caracter n&atilde;o pode ser v&iacute;rgula, ponto ou espa&ccedil;o em branco.
  *
  */
 class Texto {
@@ -28,12 +28,12 @@ private:
      * @brief Valida o texto informado.
      *
      * Verifica se o valor recebido atende as regras
-     * estabelecidas para o dominio Texto.
+     * estabelecidas para o dom&iacute;nio Texto.
      *
      * @param texto String contendo o texto a ser validado.
      *
-     * @return true caso o texto seja valido.
-     * @return false caso o texto seja invalido.
+     * @return true caso o texto seja v&aacute;lido.
+     * @return false caso o texto seja inv&aacute;lido.
      */
     bool validar(string);
 
@@ -41,13 +41,13 @@ public:
     /**
      * @brief Define o valor do texto.
      *
-     * O valor informado sera atribuido ao atributo
-     * somente se passar pela validacao.
+     * O valor informado ser&aacute; atribu&iacute;do ao atributo
+     * somente se passar pela valida&ccedil;&atilde;o.
      *
      * @param texto String contendo o texto a ser armazenado.
      *
-     * @return true caso o texto seja valido e armazenado.
-     * @return false caso o texto seja invalido.
+     * @return true caso o texto seja v&aacute;lido e armazenado.
+     * @return false caso o texto seja inv&aacute;lido.
      */
     bool setTexto(string);
 
@@ -56,15 +56,15 @@ public:
      *
      * @return String contendo o texto armazenado.
      */
-    string getTexto();
+    string getTexto() const;
 };
 
 /**
- * @brief Implementacao inline do metodo getTexto.
+ * @brief Implementa&ccedil;&atilde;o inline do m&eacute;todo getTexto.
  *
  * @return String contendo o texto armazenado.
  */
-inline string Texto::getTexto() {
+inline string Texto::getTexto() const{
     return texto;
 }
 

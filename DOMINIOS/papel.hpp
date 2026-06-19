@@ -7,10 +7,10 @@ using namespace std;
 
 /**
  * @class Papel
- * @brief Representa o papel desempenhado por um usuario no sistema.
+ * @brief Representa o papel desempenhado por um usu&aacute;rio no sistema.
  *
  * Esta classe armazena e valida um papel de acordo
- * com as regras estabelecidas para o dominio.
+ * com as regras estabelecidas para o dom&iacute;nio.
  *
  * Papel pode ser:
  * DESENVOLVEDOR, MESTRE SCRUM, PROPRIETARIO DE PRODUTO
@@ -24,12 +24,12 @@ private:
      * @brief Valida o papel informado.
      *
      * Verifica se o valor recebido atende as regras
-     * estabelecidas para o dominio Papel.
+     * estabelecidas para o dom&iacute;nio Papel.
      *
      * @param papel String contendo o papel a ser validado.
      *
-     * @return true caso o papel seja valido.
-     * @return false caso o papel seja invalido.
+     * @return true caso o papel seja v&aacute;lido.
+     * @return false caso o papel seja inv&aacute;lido.
      */
     bool validar(string);
 
@@ -37,13 +37,13 @@ public:
     /**
      * @brief Define o valor do papel.
      *
-     * O valor informado sera atribuido ao atributo
-     * somente se passar pela validacao.
+     * O valor informado ser&aacute; atribu&iacute;do ao atributo
+     * somente se passar pela valida&ccedil;&atilde;o.
      *
      * @param papel String contendo o papel a ser armazenado.
      *
-     * @return true caso o papel seja valido e armazenado.
-     * @return false caso o papel seja invalido.
+     * @return true caso o papel seja v&aacute;lido e armazenado.
+     * @return false caso o papel seja inv&aacute;lido.
      */
     bool setPapel(string);
 
@@ -52,15 +52,15 @@ public:
      *
      * @return String contendo o papel armazenado.
      */
-    string getPapel();
+    string getPapel() const;
 };
 
 /**
- * @brief Implementacao inline do metodo getPapel.
+ * @brief Implementa&ccedil;&atilde;o inline do m&eacute;todo getPapel.
  *
  * @return String contendo o papel armazenado.
  */
-inline string Papel::getPapel() {
+inline string Papel::getPapel() const{
     return papel;
 }
 

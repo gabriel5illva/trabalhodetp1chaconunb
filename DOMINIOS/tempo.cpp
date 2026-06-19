@@ -13,4 +13,5 @@ bool Tempo::setTempo(int tempo){
     if(!validar(tempo))
         throw invalid_argument("Formato de Tempo invalido.");
     this->tempo = tempo;
+    return true;
 }
