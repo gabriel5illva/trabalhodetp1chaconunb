@@ -70,4 +70,7 @@ public:
     bool listarPorProjeto(const Codigo &codigoProjeto) override;
 };
 
-#endif
+#endif // SERVICO_PLANO_DE planos de sprint associados a um projeto.
+     *
+     * @param codigoProjeto C&oacute;digo do projeto.
+     * @_SPRINT_HPP_INCLUDED
