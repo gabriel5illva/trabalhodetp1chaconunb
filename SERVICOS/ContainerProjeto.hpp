@@ -1,38 +1,49 @@
-#ifndef CONTAINER_PROJETO_HPP_INCLUDED
-#define CONTAINER_PROJETO_HPP_INCLUDED
+#ifndef SERVICO_PROJETO_HPP_INCLUDED
+#define SERVICO_PROJETO_HPP_INCLUDED
 
-#include <vector>
-#include "../ENTIDADES/Projeto.hpp"
-#include "../DOMINIOS/Codigo.hpp"
+#include "../INTERFACES/IServicoProjeto.hpp"
+#include "ContainerProjeto.hpp"
 
 /**
- * @class ContainerProjeto
- * @brief Armazena objetos da entidade Projeto em mem&oacute;ria.
+ * @class ServicoProjeto
+ * @brief Implementa os servi&ccedil;os relacionados a projetos.
  *
- * Esta classe pertence &agrave; camada de servi&ccedil;o e funciona como estrutura
- * de armazenamento tempor&aacute;rio para projetos cadastrados no sistema.
+ * Esta classe realiza a interface IServicoProjeto e utiliza
+ * ContainerProjeto para armazenar e manipular projetos cadastrados
+ * no sistema.
  */
-class ContainerProjeto {
+class ServicoProjeto : public IServicoProjeto {
 private:
-    std::vector<Projeto> projetos;
+    ContainerProjeto *containerProjeto;
 
 public:
     /**
-     * @brief Insere um projeto no cont&ecirc;iner.
-     *
-     * @param projeto Entidade Projeto a ser inserida.
-     * @return true se o projeto for inserido com sucesso.
+     * @brief Inicializa o ponteiro do cont&ecirc;iner como nulo.
      */
-    bool inserir(const Projeto &projeto);
+    ServicoProjeto();
 
     /**
-     * @brief Busca um projeto pelo c&oacute;digo.
+     * @brief Define o cont&ecirc;iner de projetos utilizado pelo servi&ccedil;o.
      *
-     * @param codigo C&oacute;digo que identifica o projeto.
-     * @param projeto Refer&ecirc;ncia que recebe o projeto encontrado.
-     * @return true se o projeto for encontrado.
+     * @param containerProjeto Ponteiro para ContainerProjeto.
      */
-    bool buscar(const Codigo &codigo, Projeto &projeto);
+    void setContainerProjeto(ContainerProjeto *containerProjeto);
+
+    /**
+     * @brief Cria um novo projeto.
+     *
+     * @param projeto Entidade Projeto a ser cadastrada.
+     * @return true se o projeto for cadastrado com sucesso.
+     */
+    bool criar(const Projeto &projeto) override;
+
+    /**
+     * @brief Consulta um projeto pelo c&oacute;digo.
+     *
+     * @param codigo C&oacute;digo do projeto.
+     * @return Entidade Projeto encontrada.
+     */
+    Projeto ler(const Codigo &codigo) override;
 
     /**
      * @brief Atualiza os dados de um projeto.
@@ -40,22 +51,23 @@ public:
      * @param projeto Entidade Projeto com os dados atualizados.
      * @return true se o projeto for atualizado com sucesso.
      */
-    bool atualizar(const Projeto &projeto);
+    bool atualizar(const Projeto &projeto) override;
 
     /**
-     * @brief Remove um projeto pelo c&oacute;digo.
+     * @brief Exclui um projeto.
      *
-     * @param codigo C&oacute;digo que identifica o projeto.
-     * @return true se o projeto for removido com sucesso.
+     * @param codigo C&oacute;digo do projeto.
+     * @return true se o projeto for exclu&iacute;do com sucesso.
      */
-    bool remover(const Codigo &codigo);
+    bool excluir(const Codigo &codigo) override;
 
     /**
-     * @brief Retorna todos os projetos armazenados.
+     * @brief Lista projetos associados a uma pessoa.
      *
-     * @return Vetor com os projetos cadastrados.
+     * @param email Email da pessoa associada aos projetos.
+     * @return true se houver projetos cadastrados.
      */
-    std::vector<Projeto> listarTodos();
+    bool listarPorPessoa(const Email &email) override;
 };
 
-#endif
+#endif // SERVICO_PROJETO_HPP_INCLUDED
