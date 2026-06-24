@@ -1,26 +1,50 @@
 #include <iostream>
-#include "INTERFACES/IApresentacaoAutenticacao.hpp"
+
+// Incluindo o contêiner de dados (banco em memória)
+#include "SERVICOS/ContainerPessoa.hpp"
+
+// Incluindo as implementações da camada de Serviço
+#include "SERVICOS/ServicoAutenticacao.hpp"
+#include "SERVICOS/ServicoUsuarios.hpp"
+
+// Incluindo as implementações da camada de Apresentação
+#include "INTERFACES/CntrApresentacaoControle.hpp"
 #include "INTERFACES/CntrApresentacaoAutenticacao.hpp"
-#include "SERVICOS/ServicoPessoa.hpp"
+#include "INTERFACES/CntrApresentacaoUsuario.hpp"
 
 int main() {
-    // 1. Inicializa o serviço de negócio/persistência (Herda de IServicoAutenticacao)
-    // O construtor do ServicoPessoa chamará automaticamente o inicializarBanco()
-    std::cout << "[MAIN] Inicializando ServicoPessoa (Banco de Dados)..." << std::endl;
-    ServicoPessoa* servicoAutenticacao = new ServicoPessoa();
+    // -------------------------------------------------------------
+    // 1. INSTANCIANDO DADOS (Simulação de Banco de Dados)
+    // -------------------------------------------------------------
+    ContainerPessoa containerPessoa;
 
-    // 2. Inicializa a controladora da Camada de Apresentação
-    std::cout << "[MAIN] Inicializando Camada de Apresentacao..." << std::endl;
-    IApresentacaoAutenticacao* apresentacao = new CntrApresentacaoAutenticacao();
+    // -------------------------------------------------------------
+    // 2. INSTANCIANDO E CONFIGURANDO A CAMADA DE SERVIÇO
+    // -------------------------------------------------------------
+    ServicoAutenticacao servicoAutenticacao;
+    servicoAutenticacao.setContainerPessoa(&containerPessoa);
 
-    // 3. Executa o fluxo passando o serviço via Injeção de Dependência
-    std::cout << "[MAIN] Iniciando o loop de execucao do sistema...\n" << std::endl;
-    apresentacao->executar(servicoAutenticacao);
+    ServicoUsuarios servicoUsuarios;
+    servicoUsuarios.setContainerPessoa(&containerPessoa);
 
-    // 4. Limpeza de memória ao sair do loop (quando a opção 0 for digitada)
-    delete apresentacao;
-    delete servicoAutenticacao;
+    // -------------------------------------------------------------
+    // 3. INSTANCIANDO E CONFIGURANDO A CAMADA DE APRESENTAÇÃO
+    // -------------------------------------------------------------
+    CntrApresentacaoAutenticacao aprAutenticacao;
+    aprAutenticacao.setServicoAutenticacao(&servicoAutenticacao);
 
-    std::cout << "\n[MAIN] Recursos liberados. Execucao encerrada com sucesso." << std::endl;
+    CntrApresentacaoUsuario aprUsuario;
+    aprUsuario.setServicoUsuarios(&servicoUsuarios);
+
+    // -------------------------------------------------------------
+    // 4. INSTANCIANDO E INICIANDO A CONTROLADORA PRINCIPAL (MAESTRO)
+    // -------------------------------------------------------------
+    CntrApresentacaoControle aprControle;
+    aprControle.setApresentacaoAutenticacao(&aprAutenticacao);
+    aprControle.setApresentacaoUsuario(&aprUsuario);
+
+    // Inicia o fluxo geral do sistema
+    aprControle.executar();
+
     return 0;
 }
