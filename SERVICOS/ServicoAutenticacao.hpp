@@ -9,7 +9,7 @@
  * @brief Implementa os servi&ccedil;os relacionados &agrave; autentica&ccedil;&atilde;o.
  *
  * Esta classe realiza a interface IServicoAutenticacao e utiliza
- * ContainerPessoa para verificar email e senha de pessoas cadastradas.
+ * ContainerPessoa para consultar e cadastrar pessoas no sistema.
  */
 class ServicoAutenticacao : public IServicoAutenticacao {
 private:
@@ -29,13 +29,33 @@ public:
     void setContainerPessoa(ContainerPessoa *containerPessoa);
 
     /**
-     * @brief Autentica uma pessoa cadastrada no sistema.
+     * @brief Autentica uma pessoa no sistema.
      *
      * @param email Email informado pela pessoa.
      * @param senha Senha informada pela pessoa.
-     * @return true se email e senha corresponderem a uma pessoa cadastrada.
+     *
+     * @return true se a autentica&ccedil;&atilde;o for realizada com sucesso.
+     * @return false se a autentica&ccedil;&atilde;o n&atilde;o for realizada.
      */
     bool autenticar(const Email &email, const Senha &senha) override;
+
+    /**
+     * @brief Cadastra uma nova pessoa no sistema.
+     *
+     * @param email Email da pessoa a ser cadastrada.
+     * @param senha Senha da pessoa a ser cadastrada.
+     * @param nome Nome da pessoa a ser cadastrada.
+     * @param papel Papel da pessoa a ser cadastrada.
+     *
+     * @return true se o cadastro for realizado com sucesso.
+     * @return false se o cadastro n&atilde;o for realizado.
+     */
+    bool cadastrar(
+        const Email &email,
+        const Senha &senha,
+        const Nome &nome,
+        const Papel &papel
+    ) override;
 };
 
-#endif
+#endif // SERVICO_AUTENTICACAO_HPP_INCLUDED
