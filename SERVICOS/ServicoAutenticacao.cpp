@@ -1,4 +1,4 @@
-#include "../../Headers/SERVICOS/ServicoAutenticacao.hpp"
+#include "ServicoAutenticacao.hpp"
 
 ServicoAutenticacao::ServicoAutenticacao() {
     containerPessoa = nullptr;
@@ -20,24 +20,4 @@ bool ServicoAutenticacao::autenticar(const Email &email, const Senha &senha) {
     }
 
     return pessoa.getSenha().getSenha() == senha.getSenha();
-}
-
-bool ServicoAutenticacao::cadastrar(
-    const Email &email,
-    const Senha &senha,
-    const Nome &nome,
-    const Papel &papel
-) {
-    if (containerPessoa == nullptr) {
-        return false;
-    }
-
-    Pessoa pessoa;
-
-    pessoa.setEmail(email);
-    pessoa.setSenha(senha);
-    pessoa.setNome(nome);
-    pessoa.setPapel(papel);
-
-    return containerPessoa->inserir(pessoa);
 }

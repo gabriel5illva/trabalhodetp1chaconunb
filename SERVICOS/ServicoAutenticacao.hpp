@@ -39,23 +39,6 @@ public:
      */
     bool autenticar(const Email &email, const Senha &senha) override;
 
-    /**
-     * @brief Cadastra uma nova pessoa no sistema.
-     *
-     * @param email Email da pessoa a ser cadastrada.
-     * @param senha Senha da pessoa a ser cadastrada.
-     * @param nome Nome da pessoa a ser cadastrada.
-     * @param papel Papel da pessoa a ser cadastrada.
-     *
-     * @return true se o cadastro for realizado com sucesso.
-     * @return false se o cadastro n&atilde;o for realizado.
-     */
-    bool cadastrar(
-        const Email &email,
-        const Senha &senha,
-        const Nome &nome,
-        const Papel &papel
-    ) override;
 };
 
 #endif // SERVICO_AUTENTICACAO_HPP_INCLUDED

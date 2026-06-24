@@ -1,4 +1,4 @@
-#include "../../Headers/entidades/HistoriaDeUsuario.hpp"
+#include "HistoriaDeUsuario.hpp"
 
 void HistoriaDeUsuario::setCodigo(const Codigo &codigo) {
     this->codigo = codigo;

@@ -1,4 +1,4 @@
-#include "../../Headers/entidades/PlanoDeSprint.hpp"
+#include "PlanoDeSprint.hpp"
 
 void PlanoDeSprint::setCodigo(const Codigo &codigo) {
     this->codigo = codigo;

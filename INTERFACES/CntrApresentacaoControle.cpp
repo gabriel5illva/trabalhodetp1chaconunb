@@ -5,13 +5,13 @@ void CntrApresentacaoControle::setApresentacaoAutenticacao(IApresentacaoAutentic
     this->apresentacaoAutenticacao = apresentacao;
 }
 
-void CntrApresentacaoControle::setApresentacaoUsuario(IApresentacaoUsuario *apresentacao) {
-    this->apresentacaoUsuario = apresentacao;
+void CntrApresentacaoControle::setApresentacaoPessoa(IApresentacaoPessoa *apresentacao) {
+    this->apresentacaoPessoa = apresentacao;
 }
 
 void CntrApresentacaoControle::executar() {
     int opcao;
-    Email emailSessao; // Armazenar· o e-mail do usu·rio autenticado
+    Email emailSessao;
 
     while (true) {
         std::cout << "\n=========================================\n";
@@ -26,29 +26,66 @@ void CntrApresentacaoControle::executar() {
 
         switch (opcao) {
             case 1:
-                if (apresentacaoAutenticacao != nullptr && apresentacaoUsuario != nullptr) {
-                    // Se a autenticaÁ„o tiver sucesso, emailSessao È preenchido por referÍncia
+                if (apresentacaoAutenticacao != nullptr) {
                     if (apresentacaoAutenticacao->autenticar(emailSessao)) {
-                        // Direciona para o menu principal logado passando a sess„o
-                        apresentacaoUsuario->executar(emailSessao);
+                        // Se autenticado com sucesso, entra no Menu Principal
+                        menuPrincipal(emailSessao);
                     }
-                } else {
-                    std::cout << "\n[Erro] Modulos de autenticacao/usuario nao conectados.\n";
                 }
                 break;
-
             case 2:
-                if (apresentacaoUsuario != nullptr) {
-                    apresentacaoUsuario->cadastrar();
-                } else {
-                    std::cout << "\n[Erro] Modulo de usuario nao conectado.\n";
+                if (apresentacaoPessoa != nullptr) {
+                    apresentacaoPessoa->cadastrar();
                 }
                 break;
-
             case 0:
                 std::cout << "\nEncerrando o sistema. Ate logo!\n";
                 return;
+            default:
+                std::cout << "\nOpcao invalida. Tente novamente.\n";
+                break;
+        }
+    }
+}
 
+void CntrApresentacaoControle::menuPrincipal(const Email &email) {
+    int opcao;
+
+    while (true) {
+        std::cout << "\n=========================================\n";
+        std::cout << "              MENU PRINCIPAL             \n";
+        std::cout << "          Sessao: " << email.getEmail() << "\n";
+        std::cout << "=========================================\n";
+        std::cout << "1 - Pessoas (Gerenciar Perfil)\n";
+        std::cout << "2 - Projetos\n";
+        std::cout << "3 - Plano de Sprint\n";
+        std::cout << "4 - Historia de Usuario\n";
+        std::cout << "0 - Sair (Logout)\n";
+        std::cout << "=========================================\n";
+        std::cout << "Escolha uma opcao: ";
+        std::cin >> opcao;
+
+        switch (opcao) {
+            case 1:
+                if (apresentacaoPessoa != nullptr) {
+                    // Se o m√©todo retornar false, significa que a conta foi exclu√≠da por dentro do menu
+                    if (!apresentacaoPessoa->executar(email)) {
+                        return; // For√ßa o logout imediato e volta ao menu deslogado
+                    }
+                }
+                break;
+            case 2:
+                std::cout << "\n[Modulo de Projetos em desenvolvimento...]\n";
+                break;
+            case 3:
+                std::cout << "\n[Modulo de Plano de Sprint em desenvolvimento...]\n";
+                break;
+            case 4:
+                std::cout << "\n[Modulo de Historia de Usuario em desenvolvimento...]\n";
+                break;
+            case 0:
+                std::cout << "\nEfetuando logout...\n";
+                return;
             default:
                 std::cout << "\nOpcao invalida. Tente novamente.\n";
                 break;

@@ -1,4 +1,4 @@
-#include "../../Headers/entidades/Projeto.hpp"
+#include "Projeto.hpp"
 
 void Projeto::setCodigo(const Codigo &codigo) {
     this->codigo = codigo;

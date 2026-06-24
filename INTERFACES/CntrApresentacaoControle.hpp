@@ -2,26 +2,22 @@
 #define CNTRAPRESENTACAOCONTROLE_HPP_INCLUDED
 
 #include "../INTERFACES/IApresentacaoAutenticacao.hpp"
-#include "../INTERFACES/IApresentacaoUsuario.hpp"
+#include "../INTERFACES/IApresentacaoPessoa.hpp"
 #include "../DOMINIOS/Email.hpp"
 
-/**
- * @class CntrApresentacaoControle
- * @brief Controladora principal responsável pelo fluxo geral de navegação do sistema.
- */
 class CntrApresentacaoControle {
 private:
     IApresentacaoAutenticacao *apresentacaoAutenticacao;
-    IApresentacaoUsuario *apresentacaoUsuario;
+    IApresentacaoPessoa *apresentacaoPessoa;
+
+    // MÃ©todo privado para gerenciar o menu pÃ³s-login
+    void menuPrincipal(const Email &email);
 
 public:
     void setApresentacaoAutenticacao(IApresentacaoAutenticacao *apresentacao);
-    void setApresentacaoUsuario(IApresentacaoUsuario *apresentacao);
+    void setApresentacaoPessoa(IApresentacaoPessoa *apresentacao);
 
-    /**
-     * @brief Inicia o loop do menu inicial (Autenticar/Cadastrar/Sair).
-     */
-    void executar();
+    void executar(); // Menu Inicial (Deslogado)
 };
 
-#endif // CNTRAPRESENTACAOCONTROLE_HPP_INCLUDED
+#endif // CNTR_APRESENTACAO_CONTROLE_HPP_INCLUDED

@@ -3,8 +3,8 @@
 
 #include "../INTERFACES/IApresentacaoAutenticacao.hpp"
 #include "../INTERFACES/IServicoAutenticacao.hpp"
-#include "../DOMINIOS/Email.hpp"
-#include "../DOMINIOS/Senha.hpp"
+#include "../DOMINIOS/email.hpp"
+#include "../DOMINIOS/senha.hpp"
 
 class CntrApresentacaoAutenticacao : public IApresentacaoAutenticacao {
 private:
@@ -15,4 +15,4 @@ public:
     void setServicoAutenticacao(IServicoAutenticacao *servico) override;
 };
 
-#endif // CNTRAPRESENTACAOAUTENTICACAO_HPP_INCLUDED
+#endif

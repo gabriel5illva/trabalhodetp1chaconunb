@@ -1,12 +1,14 @@
 #ifndef ISERVICOAUTENTICACAO_HPP_INCLUDED
 #define ISERVICOAUTENTICACAO_HPP_INCLUDED
 
-#include "../DOMINIOS/Email.hpp"
-#include "../DOMINIOS/Senha.hpp"
+#include "../DOMINIOS/email.hpp"
+#include "../DOMINIOS/senha.hpp"
+#include "../DOMINIOS/papel.hpp"
+#include "../DOMINIOS/nome.hpp"
 
 /**
  * @class IServicoAutenticacao
- * @brief Interface para o serviço de autenticação.
+ * @brief Interface para o serviï¿½o de autenticaï¿½ï¿½o.
  */
 class IServicoAutenticacao {
 public:

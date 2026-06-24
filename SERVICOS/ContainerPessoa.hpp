@@ -2,8 +2,8 @@
 #define CONTAINER_PESSOA_HPP_INCLUDED
 
 #include <vector>
-#include "../ENTIDADES/Pessoa.hpp"
-#include "../DOMINIOS/Email.hpp"
+#include "../ENTIDADES/pessoa.hpp"
+#include "../DOMINIOS/email.hpp"
 
 /**
  * @class ContainerPessoa

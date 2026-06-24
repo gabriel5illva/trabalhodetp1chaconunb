@@ -1,49 +1,37 @@
 #include <iostream>
 
-// Incluindo o contêiner de dados (banco em memória)
 #include "SERVICOS/ContainerPessoa.hpp"
-
-// Incluindo as implementações da camada de Serviço
 #include "SERVICOS/ServicoAutenticacao.hpp"
-#include "SERVICOS/ServicoUsuarios.hpp"
+#include "SERVICOS/ServicoPessoa.hpp"
 
-// Incluindo as implementações da camada de Apresentação
 #include "INTERFACES/CntrApresentacaoControle.hpp"
 #include "INTERFACES/CntrApresentacaoAutenticacao.hpp"
-#include "INTERFACES/CntrApresentacaoUsuario.hpp"
+#include "INTERFACES/CntrApresentacaoPessoa.hpp"
 
 int main() {
-    // -------------------------------------------------------------
-    // 1. INSTANCIANDO DADOS (Simulação de Banco de Dados)
-    // -------------------------------------------------------------
+    // 1. Dados em MemÃ³ria
     ContainerPessoa containerPessoa;
 
-    // -------------------------------------------------------------
-    // 2. INSTANCIANDO E CONFIGURANDO A CAMADA DE SERVIÇO
-    // -------------------------------------------------------------
+    // 2. Camada de ServiÃ§o
     ServicoAutenticacao servicoAutenticacao;
     servicoAutenticacao.setContainerPessoa(&containerPessoa);
 
-    ServicoUsuarios servicoUsuarios;
-    servicoUsuarios.setContainerPessoa(&containerPessoa);
+    ServicoPessoa servicoPessoas;
+    servicoPessoas.setContainerPessoa(&containerPessoa);
 
-    // -------------------------------------------------------------
-    // 3. INSTANCIANDO E CONFIGURANDO A CAMADA DE APRESENTAÇÃO
-    // -------------------------------------------------------------
+    // 3. Camada de ApresentaÃ§Ã£o
     CntrApresentacaoAutenticacao aprAutenticacao;
     aprAutenticacao.setServicoAutenticacao(&servicoAutenticacao);
 
-    CntrApresentacaoUsuario aprUsuario;
-    aprUsuario.setServicoUsuarios(&servicoUsuarios);
+    CntrApresentacaoPessoa aprPessoa;
+    aprPessoa.setServicoPessoa(&servicoPessoas);
 
-    // -------------------------------------------------------------
-    // 4. INSTANCIANDO E INICIANDO A CONTROLADORA PRINCIPAL (MAESTRO)
-    // -------------------------------------------------------------
+    // 4. InicializaÃ§Ã£o do Controle Principal
     CntrApresentacaoControle aprControle;
     aprControle.setApresentacaoAutenticacao(&aprAutenticacao);
-    aprControle.setApresentacaoUsuario(&aprUsuario);
+    aprControle.setApresentacaoPessoa(&aprPessoa);
 
-    // Inicia o fluxo geral do sistema
+    // Executa o sistema
     aprControle.executar();
 
     return 0;
