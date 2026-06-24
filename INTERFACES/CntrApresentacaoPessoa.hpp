@@ -5,6 +5,8 @@
 #include "../INTERFACES/IServicoPessoa.hpp"
 #include "../DOMINIOS/email.hpp"
 #include "../DOMINIOS/senha.hpp"
+#include "../DOMINIOS/nome.hpp"
+#include "../DOMINIOS/papel.hpp"
 #include "../ENTIDADES/pessoa.hpp"
 
 class CntrApresentacaoPessoa : public IApresentacaoPessoa {
