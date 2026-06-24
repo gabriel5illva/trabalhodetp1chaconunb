@@ -1,33 +1,37 @@
 #include <iostream>
 
-// Contêineres de Dados (Persistência em memória)
+// 1. Contêineres de Dados (Persistência em memória)
 #include "SERVICOS/ContainerPessoa.hpp"
 #include "SERVICOS/ContainerProjeto.hpp"
-#include "SERVICOS/ContainerPlanoDeSprint.hpp" // INCLUÍDO
+#include "SERVICOS/ContainerPlanoDeSprint.hpp"
+#include "SERVICOS/ContainerHistoriaDeUsuario.hpp" // INCLUÍDO
 
-// Classes da Camada de Serviço
+// 2. Classes da Camada de Serviço (Regras de Negócio)
 #include "SERVICOS/ServicoAutenticacao.hpp"
 #include "SERVICOS/ServicoPessoa.hpp"
 #include "SERVICOS/ServicoProjeto.hpp"
-#include "SERVICOS/ServicoPlanoDeSprint.hpp" // INCLUÍDO
+#include "SERVICOS/ServicoPlanoDeSprint.hpp"
+#include "SERVICOS/ServicoHistoriaDeUsuario.hpp" // INCLUÍDO
 
-// Classes da Camada de Apresentação (Controladoras)
+// 3. Classes da Camada de Apresentação (Controladoras/Menus)
 #include "INTERFACES/CntrApresentacaoControle.hpp"
 #include "INTERFACES/CntrApresentacaoAutenticacao.hpp"
 #include "INTERFACES/CntrApresentacaoPessoa.hpp"
 #include "INTERFACES/CntrApresentacaoProjeto.hpp"
-#include "INTERFACES/CntrApresentacaoPlanoDeSprint.hpp" // INCLUÍDO
+#include "INTERFACES/CntrApresentacaoPlanoDeSprint.hpp"
+#include "INTERFACES/CntrApresentacaoHistoriaDeUsuario.hpp" // INCLUÍDO
 
 int main() {
     // -----------------------------------------------------------------
-    // 1. INSTANCIAÇÃO DOS CONTÊINERES DE DADOS
+    // A. INSTANCIAÇÃO DOS CONTÊINERES DE DADOS
     // -----------------------------------------------------------------
     ContainerPessoa containerPessoa;
     ContainerProjeto containerProjeto;
     ContainerPlanoDeSprint containerPlanoDeSprint;
+    ContainerHistoriaDeUsuario containerHistoria; // Instanciado
 
     // -----------------------------------------------------------------
-    // 2. INSTANCIAÇÃO E CONFIGURAÇÃO DA CAMADA DE SERVIÇO
+    // B. INSTANCIAÇÃO E CONFIGURAÇÃO DA CAMADA DE SERVIÇO
     // -----------------------------------------------------------------
     ServicoAutenticacao servicoAutenticacao;
     servicoAutenticacao.setContainerPessoa(&containerPessoa);
@@ -41,8 +45,12 @@ int main() {
     ServicoPlanoDeSprint servicoPlanoDeSprint;
     servicoPlanoDeSprint.setContainerPlanoDeSprint(&containerPlanoDeSprint);
 
+    // Configuração do serviço de Histórias de Usuário
+    ServicoHistoriaDeUsuario servicoHistoria;
+    servicoHistoria.setContainerHistoriaDeUsuario(&containerHistoria); // Conectado
+
     // -----------------------------------------------------------------
-    // 3. INSTANCIAÇÃO E CONFIGURAÇÃO DA CAMADA DE APRESENTAÇÃO
+    // C. INSTANCIAÇÃO E CONFIGURAÇÃO DA CAMADA DE APRESENTAÇÃO
     // -----------------------------------------------------------------
     CntrApresentacaoAutenticacao aprAutenticacao;
     aprAutenticacao.setServicoAutenticacao(&servicoAutenticacao);
@@ -50,27 +58,33 @@ int main() {
     CntrApresentacaoPessoa aprPessoa;
     aprPessoa.setServicoPessoa(&servicoPessoa);
 
+    // Módulo de Projetos (Injeta serviço de pessoas para validar Proprietário de Produto)
     CntrApresentacaoProjeto aprProjeto;
     aprProjeto.setServicoProjeto(&servicoProjeto);
-    aprProjeto.setServicoPessoa(&servicoPessoa); // Para checar Permissões (Proprietário de Produto)
+    aprProjeto.setServicoPessoa(&servicoPessoa); 
 
+    // Módulo de Sprints (Injeta serviço de pessoas para validar Mestre Scrum)
     CntrApresentacaoPlanoDeSprint aprSprint;
     aprSprint.setServicoPlanoDeSprint(&servicoPlanoDeSprint);
-    aprSprint.setServicoPessoa(&servicoPessoa); // Para checar Permissões (Mestre Scrum)
+    aprSprint.setServicoPessoa(&servicoPessoa); 
+
+    // Módulo de Histórias de Usuário (Injeta serviço de pessoas para validar PO na criação/exclusão)
+    CntrApresentacaoHistoriaDeUsuario aprHistoria;
+    aprHistoria.setServicoHistoriaDeUsuario(&servicoHistoria);
+    aprHistoria.setServicoPessoa(&servicoPessoa); // Conectado
 
     // -----------------------------------------------------------------
-    // 4. INSTANCIAÇÃO E CONFIGURAÇÃO DA CONTROLADORA PRINCIPAL (MAESTRO)
+    // D. CONFIGURAÇÃO DA CONTROLADORA PRINCIPAL (MAESTRO DO SISTEMA)
     // -----------------------------------------------------------------
     CntrApresentacaoControle aprControle;
     aprControle.setApresentacaoAutenticacao(&aprAutenticacao);
     aprControle.setApresentacaoPessoa(&aprPessoa);
     aprControle.setApresentacaoProjeto(&aprProjeto);
-    
-    // AQUI ESTÁ A LINHA QUE FALTAVA PARA O ERRO SUMIR:
-    aprControle.setApresentacaoPlanoDeSprint(&aprSprint); 
+    aprControle.setApresentacaoPlanoDeSprint(&aprSprint);
+    aprControle.setApresentacaoHistoriaDeUsuario(&aprHistoria); // Conectado definitivamente
 
     // -----------------------------------------------------------------
-    // 5. EXECUÇÃO DO SISTEMA
+    // E. EXECUÇÃO DO SISTEMA
     // -----------------------------------------------------------------
     std::cout << "Inicializando o sistema de gestao Kanban...\n";
     aprControle.executar();

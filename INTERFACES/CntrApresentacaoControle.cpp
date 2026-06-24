@@ -1,12 +1,13 @@
 #include "CntrApresentacaoControle.hpp"
 #include <iostream>
 
-// Inicializa todos os ponteiros como nulos para evitar acessos inválidos de memória
+// Inicializa todos os ponteiros como nulos para evitar falhas de segmentação em memória
 CntrApresentacaoControle::CntrApresentacaoControle() {
     apresentacaoAutenticacao = nullptr;
     apresentacaoPessoa = nullptr;
     apresentacaoProjeto = nullptr;
     apresentacaoPlanoDeSprint = nullptr;
+    apresentacaoHistoriaDeUsuario = nullptr; // INCLUÍDO
 }
 
 void CntrApresentacaoControle::setApresentacaoAutenticacao(IApresentacaoAutenticacao *apresentacao) {
@@ -23,6 +24,10 @@ void CntrApresentacaoControle::setApresentacaoProjeto(IApresentacaoProjeto *apre
 
 void CntrApresentacaoControle::setApresentacaoPlanoDeSprint(IApresentacaoPlanoDeSprint *apresentacao) {
     this->apresentacaoPlanoDeSprint = apresentacao;
+}
+
+void CntrApresentacaoControle::setApresentacaoHistoriaDeUsuario(IApresentacaoHistoriaDeUsuario *apresentacao) {
+    this->apresentacaoHistoriaDeUsuario = apresentacao; // INCLUÍDO
 }
 
 void CntrApresentacaoControle::executar() {
@@ -44,7 +49,7 @@ void CntrApresentacaoControle::executar() {
             case 1:
                 if (apresentacaoAutenticacao != nullptr) {
                     if (apresentacaoAutenticacao->autenticar(emailSessao)) {
-                        // Se autenticado com sucesso, entra no Menu Principal
+                        // Se for autenticado com sucesso, entra no Menu Principal
                         menuPrincipal(emailSessao);
                     }
                 } else {
@@ -88,9 +93,9 @@ void CntrApresentacaoControle::menuPrincipal(const Email &email) {
         switch (opcao) {
             case 1:
                 if (apresentacaoPessoa != nullptr) {
-                    // Se o método retornar false, significa que a conta foi excluída por dentro do menu
+                    // Se o método retornar false, significa que a conta foi excluída por dentro
                     if (!apresentacaoPessoa->executar(email)) {
-                        return; // Força o logout imediato e volta ao menu deslogado
+                        return; // Força logout imediato e volta à tela deslogada
                     }
                 } else {
                     std::cout << "\n[Erro] Modulo de pessoas indisponivel.\n";
@@ -104,7 +109,6 @@ void CntrApresentacaoControle::menuPrincipal(const Email &email) {
                 }
                 break;
             case 3:
-                // ATUALIZADO: Dispara as telas reais de Sprint!
                 if (apresentacaoPlanoDeSprint != nullptr) {
                     apresentacaoPlanoDeSprint->executar(email);
                 } else {
@@ -112,7 +116,12 @@ void CntrApresentacaoControle::menuPrincipal(const Email &email) {
                 }
                 break;
             case 4:
-                std::cout << "\n[Modulo de Historia de Usuario em desenvolvimento...]\n";
+                // ATUALIZADO: Dispara as telas reais de Historias de Usuario!
+                if (apresentacaoHistoriaDeUsuario != nullptr) {
+                    apresentacaoHistoriaDeUsuario->executar(email);
+                } else {
+                    std::cout << "\n[Erro] Modulo de historias de usuario indisponivel.\n";
+                }
                 break;
             case 0:
                 std::cout << "\nEfetuando logout...\n";
