@@ -78,4 +78,4 @@ public:
     bool listarPorPlanoDeSprint(const Codigo &codigoPlano) override;
 };
 
-#endif
+#endif // SERVICO_HISTORIA_DE_USUARIO_HPP_INCLUDED
