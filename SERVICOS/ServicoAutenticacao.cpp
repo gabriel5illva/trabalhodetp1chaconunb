@@ -19,9 +19,25 @@ bool ServicoAutenticacao::autenticar(const Email &email, const Senha &senha) {
         return false;
     }
 
-    if (pessoa.getSenha().getSenha() == senha.getSenha()) {
-        return true;
+    return pessoa.getSenha().getSenha() == senha.getSenha();
+}
+
+bool ServicoAutenticacao::cadastrar(
+    const Email &email,
+    const Senha &senha,
+    const Nome &nome,
+    const Papel &papel
+) {
+    if (containerPessoa == nullptr) {
+        return false;
     }
 
-    return false;
+    Pessoa pessoa;
+
+    pessoa.setEmail(email);
+    pessoa.setSenha(senha);
+    pessoa.setNome(nome);
+    pessoa.setPapel(papel);
+
+    return containerPessoa->inserir(pessoa);
 }
