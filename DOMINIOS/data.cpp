@@ -69,7 +69,7 @@ bool Data::validar(string data){
 bool Data::setData(string data){
     if(!validar(data)){
         throw invalid_argument("Formato de Data invalido.");
+    }
     this->data = data;
     return true;
-    }
 }

@@ -9,6 +9,10 @@ void CntrApresentacaoControle::setApresentacaoPessoa(IApresentacaoPessoa *aprese
     this->apresentacaoPessoa = apresentacao;
 }
 
+void CntrApresentacaoControle::setApresentacaoProjeto(IApresentacaoProjeto *apresentacao) {
+    this->apresentacaoProjeto = apresentacao;
+}
+
 void CntrApresentacaoControle::executar() {
     int opcao;
     Email emailSessao;
@@ -75,7 +79,12 @@ void CntrApresentacaoControle::menuPrincipal(const Email &email) {
                 }
                 break;
             case 2:
-                std::cout << "\n[Modulo de Projetos em desenvolvimento...]\n";
+                // ATUALIZADO: Chama a controladora de Projetos real!
+                if (apresentacaoProjeto != nullptr) {
+                    apresentacaoProjeto->executar(email); 
+                } else {
+                    std::cout << "\n[Erro] Modulo de projetos indisponivel.\n";
+                }
                 break;
             case 3:
                 std::cout << "\n[Modulo de Plano de Sprint em desenvolvimento...]\n";

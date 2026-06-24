@@ -3,12 +3,14 @@
 
 #include "../INTERFACES/IApresentacaoAutenticacao.hpp"
 #include "../INTERFACES/IApresentacaoPessoa.hpp"
+#include "../INTERFACES/IApresentacaoProjeto.hpp"
 #include "../DOMINIOS/Email.hpp"
 
 class CntrApresentacaoControle {
 private:
     IApresentacaoAutenticacao *apresentacaoAutenticacao;
     IApresentacaoPessoa *apresentacaoPessoa;
+    IApresentacaoProjeto *apresentacaoProjeto;
 
     // Método privado para gerenciar o menu pós-login
     void menuPrincipal(const Email &email);
@@ -16,6 +18,7 @@ private:
 public:
     void setApresentacaoAutenticacao(IApresentacaoAutenticacao *apresentacao);
     void setApresentacaoPessoa(IApresentacaoPessoa *apresentacao);
+    void setApresentacaoProjeto(IApresentacaoProjeto *apresentacao);
 
     void executar(); // Menu Inicial (Deslogado)
 };
