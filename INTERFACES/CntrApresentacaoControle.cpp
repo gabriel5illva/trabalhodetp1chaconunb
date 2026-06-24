@@ -1,6 +1,14 @@
 #include "CntrApresentacaoControle.hpp"
 #include <iostream>
 
+// Inicializa todos os ponteiros como nulos para evitar acessos inválidos de memória
+CntrApresentacaoControle::CntrApresentacaoControle() {
+    apresentacaoAutenticacao = nullptr;
+    apresentacaoPessoa = nullptr;
+    apresentacaoProjeto = nullptr;
+    apresentacaoPlanoDeSprint = nullptr;
+}
+
 void CntrApresentacaoControle::setApresentacaoAutenticacao(IApresentacaoAutenticacao *apresentacao) {
     this->apresentacaoAutenticacao = apresentacao;
 }
@@ -11,6 +19,10 @@ void CntrApresentacaoControle::setApresentacaoPessoa(IApresentacaoPessoa *aprese
 
 void CntrApresentacaoControle::setApresentacaoProjeto(IApresentacaoProjeto *apresentacao) {
     this->apresentacaoProjeto = apresentacao;
+}
+
+void CntrApresentacaoControle::setApresentacaoPlanoDeSprint(IApresentacaoPlanoDeSprint *apresentacao) {
+    this->apresentacaoPlanoDeSprint = apresentacao;
 }
 
 void CntrApresentacaoControle::executar() {
@@ -35,11 +47,15 @@ void CntrApresentacaoControle::executar() {
                         // Se autenticado com sucesso, entra no Menu Principal
                         menuPrincipal(emailSessao);
                     }
+                } else {
+                    std::cout << "\n[Erro] Modulo de autenticacao indisponivel.\n";
                 }
                 break;
             case 2:
                 if (apresentacaoPessoa != nullptr) {
                     apresentacaoPessoa->cadastrar();
+                } else {
+                    std::cout << "\n[Erro] Modulo de cadastro indisponivel.\n";
                 }
                 break;
             case 0:
@@ -76,10 +92,11 @@ void CntrApresentacaoControle::menuPrincipal(const Email &email) {
                     if (!apresentacaoPessoa->executar(email)) {
                         return; // Força o logout imediato e volta ao menu deslogado
                     }
+                } else {
+                    std::cout << "\n[Erro] Modulo de pessoas indisponivel.\n";
                 }
                 break;
             case 2:
-                // ATUALIZADO: Chama a controladora de Projetos real!
                 if (apresentacaoProjeto != nullptr) {
                     apresentacaoProjeto->executar(email); 
                 } else {
@@ -87,7 +104,12 @@ void CntrApresentacaoControle::menuPrincipal(const Email &email) {
                 }
                 break;
             case 3:
-                std::cout << "\n[Modulo de Plano de Sprint em desenvolvimento...]\n";
+                // ATUALIZADO: Dispara as telas reais de Sprint!
+                if (apresentacaoPlanoDeSprint != nullptr) {
+                    apresentacaoPlanoDeSprint->executar(email);
+                } else {
+                    std::cout << "\n[Erro] Modulo de planos de sprint indisponivel.\n";
+                }
                 break;
             case 4:
                 std::cout << "\n[Modulo de Historia de Usuario em desenvolvimento...]\n";

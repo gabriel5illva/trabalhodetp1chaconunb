@@ -3,17 +3,20 @@
 // Contêineres de Dados (Persistência em memória)
 #include "SERVICOS/ContainerPessoa.hpp"
 #include "SERVICOS/ContainerProjeto.hpp"
+#include "SERVICOS/ContainerPlanoDeSprint.hpp" // INCLUÍDO
 
 // Classes da Camada de Serviço
 #include "SERVICOS/ServicoAutenticacao.hpp"
 #include "SERVICOS/ServicoPessoa.hpp"
 #include "SERVICOS/ServicoProjeto.hpp"
+#include "SERVICOS/ServicoPlanoDeSprint.hpp" // INCLUÍDO
 
 // Classes da Camada de Apresentação (Controladoras)
 #include "INTERFACES/CntrApresentacaoControle.hpp"
 #include "INTERFACES/CntrApresentacaoAutenticacao.hpp"
 #include "INTERFACES/CntrApresentacaoPessoa.hpp"
 #include "INTERFACES/CntrApresentacaoProjeto.hpp"
+#include "INTERFACES/CntrApresentacaoPlanoDeSprint.hpp" // INCLUÍDO
 
 int main() {
     // -----------------------------------------------------------------
@@ -21,6 +24,7 @@ int main() {
     // -----------------------------------------------------------------
     ContainerPessoa containerPessoa;
     ContainerProjeto containerProjeto;
+    ContainerPlanoDeSprint containerPlanoDeSprint;
 
     // -----------------------------------------------------------------
     // 2. INSTANCIAÇÃO E CONFIGURAÇÃO DA CAMADA DE SERVIÇO
@@ -34,6 +38,9 @@ int main() {
     ServicoProjeto servicoProjeto;
     servicoProjeto.setContainerProjeto(&containerProjeto);
 
+    ServicoPlanoDeSprint servicoPlanoDeSprint;
+    servicoPlanoDeSprint.setContainerPlanoDeSprint(&containerPlanoDeSprint);
+
     // -----------------------------------------------------------------
     // 3. INSTANCIAÇÃO E CONFIGURAÇÃO DA CAMADA DE APRESENTAÇÃO
     // -----------------------------------------------------------------
@@ -45,7 +52,11 @@ int main() {
 
     CntrApresentacaoProjeto aprProjeto;
     aprProjeto.setServicoProjeto(&servicoProjeto);
-    aprProjeto.setServicoPessoa(&servicoPessoa); // Injeção necessária para verificar o Papel do usuário logado
+    aprProjeto.setServicoPessoa(&servicoPessoa); // Para checar Permissões (Proprietário de Produto)
+
+    CntrApresentacaoPlanoDeSprint aprSprint;
+    aprSprint.setServicoPlanoDeSprint(&servicoPlanoDeSprint);
+    aprSprint.setServicoPessoa(&servicoPessoa); // Para checar Permissões (Mestre Scrum)
 
     // -----------------------------------------------------------------
     // 4. INSTANCIAÇÃO E CONFIGURAÇÃO DA CONTROLADORA PRINCIPAL (MAESTRO)
@@ -53,7 +64,10 @@ int main() {
     CntrApresentacaoControle aprControle;
     aprControle.setApresentacaoAutenticacao(&aprAutenticacao);
     aprControle.setApresentacaoPessoa(&aprPessoa);
-    aprControle.setApresentacaoProjeto(&aprProjeto); // Liga definitivamente o módulo de projetos ao fluxo
+    aprControle.setApresentacaoProjeto(&aprProjeto);
+    
+    // AQUI ESTÁ A LINHA QUE FALTAVA PARA O ERRO SUMIR:
+    aprControle.setApresentacaoPlanoDeSprint(&aprSprint); 
 
     // -----------------------------------------------------------------
     // 5. EXECUÇÃO DO SISTEMA
