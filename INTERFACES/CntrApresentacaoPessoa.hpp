@@ -17,7 +17,7 @@ private:
 
 public:
     void cadastrar() override;
-    bool executar(const Email &email) override; // Menu interno de Gestão de Perfil
+    bool executar(const Email &email) override;
     void setServicoPessoa(IServicoPessoa *servico) override;
     void setServicoProjeto(IServicoProjeto *servico);
 };

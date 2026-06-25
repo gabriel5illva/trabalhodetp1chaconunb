@@ -8,7 +8,7 @@
 
 /**
  * @class IServicoAutenticacao
- * @brief Interface para o servi�o de autentica��o.
+ * @brief Interface para o servico de autenticacao.
  */
 class IServicoAutenticacao {
 public:

@@ -6,19 +6,19 @@
 
 /**
  * @class IApresentacaoAutenticacao
- * @brief Interface para a apresentação da tela de login.
+ * @brief Interface para a apresentacao da tela de login.
  */
 class IApresentacaoAutenticacao {
 public:
     /**
      * @brief Executa a tela de login.
-     * @param email Referência para capturar o email do usuário caso a autenticação tenha sucesso.
-     * @return true se o usuário foi autenticado com sucesso.
+     * @param email Referencia para capturar o email do usuario caso a autenticacao tenha sucesso.
+     * @return true se o usuario foi autenticado com sucesso.
      */
     virtual bool autenticar(Email &email) = 0;
 
     /**
-     * @brief Estabelece a ligação com a camada de serviço.
+     * @brief Estabelece a ligacao com a camada de servico.
      */
     virtual void setServicoAutenticacao(IServicoAutenticacao *servico) = 0;
 

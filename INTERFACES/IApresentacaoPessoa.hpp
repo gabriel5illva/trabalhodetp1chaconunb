@@ -18,7 +18,6 @@ public:
      */
     virtual bool executar(const Email &email) = 0;
 
-    // CORREÇÃO AQUI: o nome do método foi atualizado
     virtual void setServicoPessoa(IServicoPessoa *servico) = 0; 
     
     virtual ~IApresentacaoPessoa() = default;

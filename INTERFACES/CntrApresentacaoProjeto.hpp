@@ -14,14 +14,13 @@
 class CntrApresentacaoProjeto : public IApresentacaoProjeto {
 private:
     IServicoProjeto *servicoProjeto;
-    IServicoPessoa *servicoPessoa; // Ponteiro para buscar os dados do usuário
+    IServicoPessoa *servicoPessoa;
 
 public:
     void executar(const Email &email) override;
     
     void setServicoProjeto(IServicoProjeto *servico) override;
-    
-    // Novo método para injetar o serviço de pessoa e checar permissões
+
     void setServicoPessoa(IServicoPessoa *servico); 
 };
 

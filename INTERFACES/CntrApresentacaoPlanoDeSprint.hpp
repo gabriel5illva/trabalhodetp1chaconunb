@@ -24,8 +24,7 @@ public:
     void executar(const Email &email) override;
     
     void setServicoPlanoDeSprint(IServicoPlanoDeSprint *servico) override;
-    
-    // Método para injetar o serviço de pessoas e validar o Mestre Scrum
+
     void setServicoPessoa(IServicoPessoa *servico);
 };
 
