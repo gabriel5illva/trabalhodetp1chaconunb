@@ -14,12 +14,12 @@
 #include "SERVICOS/ServicoHistoriaDeUsuario.hpp" // INCLUÍDO
 
 // 3. Classes da Camada de Apresentação (Controladoras/Menus)
-#include "INTERFACES/CntrApresentacaoControle.hpp"
-#include "INTERFACES/CntrApresentacaoAutenticacao.hpp"
-#include "INTERFACES/CntrApresentacaoPessoa.hpp"
-#include "INTERFACES/CntrApresentacaoProjeto.hpp"
-#include "INTERFACES/CntrApresentacaoPlanoDeSprint.hpp"
-#include "INTERFACES/CntrApresentacaoHistoriaDeUsuario.hpp"
+#include "APRESENTACAO/CntrApresentacaoControle.hpp"
+#include "APRESENTACAO/CntrApresentacaoAutenticacao.hpp"
+#include "APRESENTACAO/CntrApresentacaoPessoa.hpp"
+#include "APRESENTACAO/CntrApresentacaoProjeto.hpp"
+#include "APRESENTACAO/CntrApresentacaoPlanoDeSprint.hpp"
+#include "APRESENTACAO/CntrApresentacaoHistoriaDeUsuario.hpp"
 
 int main() {
     // -----------------------------------------------------------------
