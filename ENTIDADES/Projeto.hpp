@@ -4,6 +4,7 @@
 #include "../dominios/Codigo.hpp"
 #include "../dominios/Nome.hpp"
 #include "../dominios/Data.hpp"
+#include "../DOMINIOS/email.hpp"
 
 /**
  * @class Projeto
@@ -21,6 +22,7 @@ private:
     Nome nome;
     Data inicio;
     Data termino;
+    Email emailAssociado;
 
 public:
     /**
@@ -78,6 +80,23 @@ public:
      * @return Objeto da classe de dom&iacute;nio Data.
      */
     Data getTermino() const;
+
+    /**
+     * @brief Define o Email associado ao projeto.
+     * 
+     * @param email objeto da classe de dominio Email.
+     */
+    void setEmailAssociado(const Email &email);
+
+    /**
+     * @brief Retorna o email associado ao projeto.
+     * 
+     * @return Objeto da classe de dominio Email.
+     */
+    Email getEmailAssociado() const;
+
 };
+
+
 
 #endif

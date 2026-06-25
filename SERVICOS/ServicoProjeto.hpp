@@ -1,6 +1,7 @@
 #ifndef SERVICO_PROJETO_HPP_INCLUDED
 #define SERVICO_PROJETO_HPP_INCLUDED
 
+#include <vector>
 #include "../INTERFACES/IServicoProjeto.hpp"
 #include "ContainerProjeto.hpp"
 
@@ -67,7 +68,7 @@ public:
      * @param email Email da pessoa associada aos projetos.
      * @return true se houver projetos cadastrados.
      */
-    bool listarPorPessoa(const Email &email) override;
+    std::vector<Projeto> listarPorPessoa(const Email &email) override;
 };
 
 #endif // SERVICO_PROJETO_HPP_INCLUDED

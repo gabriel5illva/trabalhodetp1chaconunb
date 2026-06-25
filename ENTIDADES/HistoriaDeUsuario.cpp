@@ -63,3 +63,9 @@ void HistoriaDeUsuario::setEstado(const Estado &estado) {
 Estado HistoriaDeUsuario::getEstado() const {
     return estado;
 }
+
+void HistoriaDeUsuario::setEmailAssociado(const Email &email) {
+    this->emailAssociado = email; }
+
+Email HistoriaDeUsuario::getEmailAssociado() const {
+    return emailAssociado; }

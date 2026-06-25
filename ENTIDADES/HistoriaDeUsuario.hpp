@@ -6,6 +6,7 @@
 #include "../dominios/Tempo.hpp"
 #include "../dominios/Prioridade.hpp"
 #include "../dominios/Estado.hpp"
+#include "../dominios/email.hpp"
 
 /**
  * @class HistoriaDeUsuario
@@ -28,6 +29,7 @@ private:
     Tempo estimativa;
     Prioridade prioridade;
     Estado estado;
+    Email emailAssociado;
 
 public:
     /**
@@ -141,6 +143,20 @@ public:
      * @return Objeto da classe de dom&iacute;nio Estado.
      */
     Estado getEstado() const;
+
+    /**
+     * @brief Define email associado a historia de usuario.
+     * 
+     * @param email Objeto da classe de dominio Email.
+     */
+    void setEmailAssociado(const Email &email);
+
+    /**
+     * @brief Retorna o email associado a historia de usuario.
+     * 
+     * @return Objeto da classe de dominio email.
+     */
+    Email getEmailAssociado() const;
 };
 
 #endif

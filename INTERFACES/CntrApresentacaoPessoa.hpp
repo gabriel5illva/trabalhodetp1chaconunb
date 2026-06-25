@@ -3,6 +3,7 @@
 
 #include "../INTERFACES/IApresentacaoPessoa.hpp"
 #include "../INTERFACES/IServicoPessoa.hpp"
+#include "../INTERFACES/IServicoProjeto.hpp"
 #include "../DOMINIOS/email.hpp"
 #include "../DOMINIOS/senha.hpp"
 #include "../DOMINIOS/nome.hpp"
@@ -12,11 +13,13 @@
 class CntrApresentacaoPessoa : public IApresentacaoPessoa {
 private:
     IServicoPessoa *servicoPessoas;
+    IServicoProjeto *servicoProjeto;
 
 public:
     void cadastrar() override;
     bool executar(const Email &email) override; // Menu interno de Gestão de Perfil
     void setServicoPessoa(IServicoPessoa *servico) override;
+    void setServicoProjeto(IServicoProjeto *servico);
 };
 
 #endif // CNTRAPRESENTACAOPESSOA_HPP_INCLUDED

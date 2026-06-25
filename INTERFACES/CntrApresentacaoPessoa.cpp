@@ -1,10 +1,15 @@
 #include "CntrApresentacaoPessoa.hpp"
 #include <iostream>
+#include <limits>
 #include <string>
 #include <stdexcept>
 
 void CntrApresentacaoPessoa::setServicoPessoa(IServicoPessoa *servico) {
     this->servicoPessoas = servico;
+}
+
+void CntrApresentacaoPessoa::setServicoProjeto(IServicoProjeto *servico) {
+    this->servicoProjeto = servico;
 }
 
 void CntrApresentacaoPessoa::cadastrar() {
@@ -88,7 +93,15 @@ bool CntrApresentacaoPessoa::executar(const Email &emailLogado) {
         std::cout << "0 - Voltar ao Menu Principal\n";
         std::cout << "=========================================\n";
         std::cout << "Escolha uma opcao: ";
-        std::cin >> opcao;
+
+        if (!(std::cin >> opcao)) {
+            std::cout << "\nEntrada invalida. Digite um numero.\n";
+
+            std::cin.clear(); // limpa o estado de erro
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // descarta entrada inválida
+
+            continue;
+        }   
 
         if (opcao == 0) {
             return true; // Retorna mantendo a sessão ativa
@@ -135,7 +148,6 @@ bool CntrApresentacaoPessoa::executar(const Email &emailLogado) {
                 Email eBusca; eBusca.setEmail(emailBusca);
                 Pessoa encontrada = servicoPessoas->ler(eBusca);
 
-                // Se o contêiner não encontrar, retorna uma Pessoa com e-mail em branco
                 if (encontrada.getEmail().getEmail() == "") {
                     std::cout << "\n[Erro] Pessoa nao encontrada no sistema.\n";
                 } else {
@@ -144,6 +156,25 @@ bool CntrApresentacaoPessoa::executar(const Email &emailLogado) {
                     std::cout << "E-mail: " << encontrada.getEmail().getEmail() << "\n";
                     std::cout << "Papel:  " << encontrada.getPapel().getPapel() << "\n";
                 }
+                char verProjetos;
+                    std::cout << "\nDeseja listar os projetos associados a esta pessoa? (S/N): ";
+                    std::cin >> verProjetos;
+    
+                if (verProjetos == 'S' || verProjetos == 's') {
+                // Chama o método que alteramos para retornar o vetor filtrado pelo e-mail consultado
+                std::vector<Projeto> projetosDaPessoa = servicoProjeto->listarPorPessoa(encontrada.getEmail());
+            
+                if (projetosDaPessoa.empty()) {
+                    std::cout << "Nenhum projeto associado a esta pessoa.\n";
+                } else {
+                    std::cout << "\nProjetos associados:\n";
+                for (size_t i = 0; i < projetosDaPessoa.size(); ++i) {
+                    std::cout << (i + 1) << "- " 
+                              << projetosDaPessoa[i].getCodigo().getCodigo() << " | " 
+                              << projetosDaPessoa[i].getNome().getNome() << "\n";
+                }
+            }
+        }
             } catch (const std::invalid_argument &e) {
                 std::cout << "\n[Erro de Formato] " << e.what() << "\n";
             }

@@ -44,12 +44,22 @@ bool ServicoProjeto::excluir(const Codigo &codigo) {
     return containerProjeto->remover(codigo);
 }
 
-bool ServicoProjeto::listarPorPessoa(const Email &email) {
-    (void) email;
+std::vector<Projeto> ServicoProjeto::listarPorPessoa(const Email &email) {
+    std::vector<Projeto> projetosFiltrados; // Vetor que começará vazio
 
     if (containerProjeto == nullptr) {
-        return false;
+        return projetosFiltrados;
     }
 
-    return !containerProjeto->listarTodos().empty();
+    // Obtém todos os projetos salvos na memória
+    std::vector<Projeto> todosProjetos = containerProjeto->listarTodos();
+    
+    // Filtra adicionando ao vetor apenas os que possuem o e-mail do criador
+    for (const Projeto &p : todosProjetos) {
+        if (p.getEmailAssociado().getEmail() == email.getEmail()) {
+            projetosFiltrados.push_back(p);
+        }
+    }
+
+    return projetosFiltrados; // Retorna a lista pronta (pode ser vazia)
 }

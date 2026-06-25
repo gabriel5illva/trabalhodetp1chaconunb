@@ -87,6 +87,7 @@ void CntrApresentacaoProjeto::executar(const Email &emailLogado) {
                 novoProj.setNome(n);
                 novoProj.setInicio(dInicio);
                 novoProj.setTermino(dTermino);
+                novoProj.setEmailAssociado(emailLogado);
 
                 if (servicoProjeto->criar(novoProj)) {
                     std::cout << "\n[Sucesso] Projeto criado com sucesso!\n";

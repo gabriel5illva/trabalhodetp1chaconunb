@@ -1,5 +1,6 @@
 #include "CntrApresentacaoControle.hpp"
 #include <iostream>
+#include <limits>
 
 // Inicializa todos os ponteiros como nulos para evitar falhas de segmentação em memória
 CntrApresentacaoControle::CntrApresentacaoControle() {
@@ -43,7 +44,15 @@ void CntrApresentacaoControle::executar() {
         std::cout << "0 - Sair\n";
         std::cout << "=========================================\n";
         std::cout << "Escolha uma opcao: ";
-        std::cin >> opcao;
+
+        if (!(std::cin >> opcao)) {
+            std::cout << "\nEntrada invalida. Digite um numero.\n";
+
+            std::cin.clear(); // limpa o estado de erro
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // descarta entrada inválida
+
+            continue;
+        }   
 
         switch (opcao) {
             case 1:
@@ -88,7 +97,15 @@ void CntrApresentacaoControle::menuPrincipal(const Email &email) {
         std::cout << "0 - Sair (Logout)\n";
         std::cout << "=========================================\n";
         std::cout << "Escolha uma opcao: ";
-        std::cin >> opcao;
+
+        if (!(std::cin >> opcao)) {
+            std::cout << "\nEntrada invalida. Digite um numero.\n";
+
+            std::cin.clear(); // limpa o estado de erro
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // descarta entrada inválida
+
+            continue;
+        }   
 
         switch (opcao) {
             case 1:

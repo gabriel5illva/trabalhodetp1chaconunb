@@ -1,4 +1,5 @@
 #include "CntrApresentacaoPlanoDeSprint.hpp"
+#include <limits>
 #include <iostream>
 #include <string>
 #include <stdexcept>
@@ -48,7 +49,15 @@ void CntrApresentacaoPlanoDeSprint::executar(const Email &emailLogado) {
         std::cout << "0 - Voltar ao Menu Principal\n";
         std::cout << "=========================================\n";
         std::cout << "Escolha uma opcao: ";
-        std::cin >> opcao;
+
+        if (!(std::cin >> opcao)) {
+            std::cout << "\nEntrada invalida. Digite um numero.\n";
+
+            std::cin.clear(); // limpa o estado de erro
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // descarta entrada inválida
+
+            continue;
+        }   
 
         if (opcao == 0) {
             return; // Retorna para o menu de controle principal

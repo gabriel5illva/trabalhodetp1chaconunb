@@ -31,3 +31,11 @@ void Projeto::setTermino(const Data &termino) {
 Data Projeto::getTermino() const {
     return termino;
 }
+
+void Projeto::setEmailAssociado(const Email &email) { 
+    this->emailAssociado = email; 
+}
+
+Email Projeto::getEmailAssociado() const { 
+    return emailAssociado; 
+}

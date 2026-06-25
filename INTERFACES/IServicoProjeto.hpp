@@ -1,6 +1,7 @@
 #ifndef ISERVICOPROJETO_HPP_INCLUDED
 #define ISERVICOPROJETO_HPP_INCLUDED
 
+#include <vector>
 #include "../ENTIDADES/Projeto.hpp"
 #include "../DOMINIOS/Codigo.hpp"
 #include "../DOMINIOS/Email.hpp"
@@ -16,8 +17,7 @@ public:
     virtual bool atualizar(const Projeto &projeto) = 0;
     virtual bool excluir(const Codigo &codigo) = 0;
     
-    // Método adicional específico para projetos mapeado da sua classe de serviço
-    virtual bool listarPorPessoa(const Email &email) = 0;
+    virtual std::vector<Projeto> listarPorPessoa(const Email &email) = 0;
     
     virtual ~IServicoProjeto() = default;
 };

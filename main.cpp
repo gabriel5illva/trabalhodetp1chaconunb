@@ -57,6 +57,7 @@ int main() {
 
     CntrApresentacaoPessoa aprPessoa;
     aprPessoa.setServicoPessoa(&servicoPessoa);
+    aprPessoa.setServicoProjeto(&servicoProjeto);
 
     // Módulo de Projetos (Injeta serviço de pessoas para validar Proprietário de Produto)
     CntrApresentacaoProjeto aprProjeto;

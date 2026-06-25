@@ -1,4 +1,5 @@
 #include "CntrApresentacaoHistoriaDeUsuario.hpp"
+#include <limits>
 #include <iostream>
 #include <string>
 #include <stdexcept>
@@ -17,8 +18,9 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
     Pessoa usuarioLogado = servicoPessoa->ler(emailLogado);
     std::string papelLogado = usuarioLogado.getPapel().getPapel();
     
-    // O PO é o "Dono do Backlog", portanto só ele Cria e Exclui.
+    // Regras de Permissão
     bool isPO = (papelLogado == "PROPRIETARIO DE PRODUTO");
+    bool isSM = (papelLogado == "MESTRE SCRUM"); // Nova permissão
 
     while (true) {
         std::cout << "\n=========================================\n";
@@ -27,36 +29,43 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
         std::cout << "  Papel:   " << papelLogado << "\n";
         std::cout << "=========================================\n";
         
-        if (isPO) {
-            std::cout << "1 - Criar nova Historia (C)\n";
-        } else {
-            std::cout << "1 - [BLOQUEADO] Criar nova Historia (Apenas PO)\n";
-        }
+        if (isPO) std::cout << "1 - Criar nova Historia (C)\n";
+        else std::cout << "1 - [BLOQUEADO] Criar nova Historia (Apenas PO)\n";
         
         std::cout << "2 - Ler dados de uma Historia (R)\n";
-        std::cout << "3 - Editar uma Historia / Mudar Estado (U)\n"; // Todos podem editar
+
+        if (isPO) std::cout << "3 - Editar uma Historia\n"; 
+        else std::cout << "3 - [BLOQUEADO] Editar uma Historia (Apenas PO)\n";
         
-        if (isPO) {
-            std::cout << "4 - Excluir uma Historia (D)\n";
-        } else {
-            std::cout << "4 - [BLOQUEADO] Excluir uma Historia (Apenas PO)\n";
-        }
+        if (isPO) std::cout << "4 - Excluir uma Historia (D)\n";
+        else std::cout << "4 - [BLOQUEADO] Excluir uma Historia (Apenas PO)\n";
         
         std::cout << "5 - Listar Historias por Projeto\n";
         std::cout << "6 - Listar Historias por Plano de Sprint\n";
+        
+        // --- NOVAS OPÇÕES DO MESTRE SCRUM ---
+        if (isSM) {
+            std::cout << "7 - Estabelecer Associacao com Pessoa\n";
+            std::cout << "8 - Remover Associacao com Pessoa\n";
+        } else {
+            std::cout << "7 - [BLOQUEADO] Associar Pessoa (Apenas MESTRE SCRUM)\n";
+            std::cout << "8 - [BLOQUEADO] Remover Associacao (Apenas MESTRE SCRUM)\n";
+        }
+
         std::cout << "0 - Voltar ao Menu Principal\n";
         std::cout << "=========================================\n";
         std::cout << "Escolha uma opcao: ";
-        std::cin >> opcao;
 
-        // CORREÇÃO: Limpa o buffer se o utilizador digitar letras no menu
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            opcao = -1; // Força cair no 'else' de opção inválida
-        }
+        if (!(std::cin >> opcao)) {
+            std::cout << "\nEntrada invalida. Digite um numero.\n";
 
-        if (opcao == 0) {
+            std::cin.clear(); // limpa o estado de erro
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // descarta entrada inválida
+
+            continue;
+        }   
+
+        if (opcao == 0){
             return;
         }
 
@@ -158,6 +167,10 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
         }
         // --- OPÇÃO 3: UPDATE ---
         else if (opcao == 3) {
+            if (!isPO) {
+                std::cout << "\n[Acesso Negado] Apenas o PROPRIETARIO DE PRODUTO edita historias.\n";
+                continue;
+            }
             std::string entCodigo;
             std::cout << "\nDigite o Codigo da Historia que deseja EDITAR: ";
             std::cin >> entCodigo;
@@ -285,8 +298,90 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
             std::cout << "Pressione ENTER para continuar...";
             std::cin.ignore(10000, '\n'); std::cin.get();
         }
+
+        else if (opcao == 7) {
+            if (!isSM) {
+                std::cout << "\n[Acesso Negado] Apenas o MESTRE SCRUM pode associar pessoas as historias.\n";
+                continue;
+            }
+
+            std::string entCodigo, entEmail;
+            std::cout << "\nDigite o Codigo da Historia: ";
+            std::cin >> entCodigo;
+            
+            std::cout << "Digite o E-mail do usuario que assumira a Historia: ";
+            std::cin >> entEmail;
+
+            try {
+                // 1. Verifica se a história existe
+                Codigo cod; cod.setCodigo(entCodigo);
+                HistoriaDeUsuario historia = servicoHistoriaDeUsuario->ler(cod);
+
+                if (historia.getCodigo().getCodigo() == "") {
+                    std::cout << "\n[Erro] Historia nao encontrada.\n";
+                    continue;
+                }
+
+                // 2. Verifica se a pessoa existe no sistema
+                Email emailBusca; emailBusca.setEmail(entEmail);
+                Pessoa dev = servicoPessoa->ler(emailBusca);
+
+                if (dev.getEmail().getEmail() == "") {
+                    std::cout << "\n[Erro] Nenhum usuario cadastrado com este e-mail.\n";
+                    continue;
+                }
+
+                // 3. Estabelece a associação
+                historia.setEmailAssociado(emailBusca);
+
+                if (servicoHistoriaDeUsuario->atualizar(historia)) {
+                    std::cout << "\n[Sucesso] Historia associada a " << dev.getNome().getNome() << " com sucesso!\n";
+                } else {
+                    std::cout << "\n[Erro] Falha ao salvar associacao.\n";
+                }
+
+            } catch (const std::invalid_argument &e) {
+                std::cout << "\n[Erro de Formato] " << e.what() << "\n";
+            }
+        }
+
+        // --- OPÇÃO 8: REMOVER ASSOCIAÇÃO ---
+        else if (opcao == 8) {
+            if (!isSM) {
+                std::cout << "\n[Acesso Negado] Apenas o MESTRE SCRUM pode remover associacoes.\n";
+                continue;
+            }
+
+            std::string entCodigo;
+            std::cout << "\nDigite o Codigo da Historia para remover o usuario associado: ";
+            std::cin >> entCodigo;
+
+            try {
+                Codigo cod; cod.setCodigo(entCodigo);
+                HistoriaDeUsuario historia = servicoHistoriaDeUsuario->ler(cod);
+
+                if (historia.getCodigo().getCodigo() == "") {
+                    std::cout << "\n[Erro] Historia nao encontrada.\n";
+                } else {
+                    // Cria um email vazio para limpar a associação
+                    Email emailVazio; 
+                    historia.setEmailAssociado(emailVazio);
+
+                    if (servicoHistoriaDeUsuario->atualizar(historia)) {
+                        std::cout << "\n[Sucesso] Associacao removida. A historia agora esta sem dono.\n";
+                    } else {
+                        std::cout << "\n[Erro] Falha ao remover associacao.\n";
+                    }
+                }
+            } catch (const std::invalid_argument &e) {
+                std::cout << "\n[Erro de Formato] " << e.what() << "\n";
+            }
+        }
+        
         else {
-            std::cout << "\nOpcao invalida. Tente novamente.\n";
+            if (opcao < 0 || opcao > 8) {
+                std::cout << "\nOpcao invalida. Tente novamente.\n";
+            }
         }
     }
 }
