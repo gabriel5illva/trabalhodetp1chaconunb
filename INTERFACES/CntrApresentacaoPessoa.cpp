@@ -155,26 +155,27 @@ bool CntrApresentacaoPessoa::executar(const Email &emailLogado) {
                     std::cout << "Nome:   " << encontrada.getNome().getNome() << "\n";
                     std::cout << "E-mail: " << encontrada.getEmail().getEmail() << "\n";
                     std::cout << "Papel:  " << encontrada.getPapel().getPapel() << "\n";
-                }
-                char verProjetos;
-                    std::cout << "\nDeseja listar os projetos associados a esta pessoa? (S/N): ";
-                    std::cin >> verProjetos;
-    
-                if (verProjetos == 'S' || verProjetos == 's') {
-                // Chama o método que alteramos para retornar o vetor filtrado pelo e-mail consultado
-                std::vector<Projeto> projetosDaPessoa = servicoProjeto->listarPorPessoa(encontrada.getEmail());
-            
-                if (projetosDaPessoa.empty()) {
-                    std::cout << "Nenhum projeto associado a esta pessoa.\n";
-                } else {
-                    std::cout << "\nProjetos associados:\n";
-                for (size_t i = 0; i < projetosDaPessoa.size(); ++i) {
-                    std::cout << (i + 1) << "- " 
-                              << projetosDaPessoa[i].getCodigo().getCodigo() << " | " 
-                              << projetosDaPessoa[i].getNome().getNome() << "\n";
+                    
+                    char verProjetos;
+                        std::cout << "\nDeseja listar os projetos associados a esta pessoa? (S/N): ";
+                        std::cin >> verProjetos;
+        
+                    if (verProjetos == 'S' || verProjetos == 's') {
+                    // Chama o método que alteramos para retornar o vetor filtrado pelo e-mail consultado
+                    std::vector<Projeto> projetosDaPessoa = servicoProjeto->listarPorPessoa(encontrada.getEmail());
+                
+                    if (projetosDaPessoa.empty()) {
+                        std::cout << "Nenhum projeto associado a esta pessoa.\n";
+                    } else {
+                        std::cout << "\nProjetos associados:\n";
+                    for (size_t i = 0; i < projetosDaPessoa.size(); ++i) {
+                        std::cout << (i + 1) << "- " 
+                                  << projetosDaPessoa[i].getCodigo().getCodigo() << " | " 
+                                  << projetosDaPessoa[i].getNome().getNome() << "\n";
+                    }
                 }
             }
-        }
+                }
             } catch (const std::invalid_argument &e) {
                 std::cout << "\n[Erro de Formato] " << e.what() << "\n";
             }

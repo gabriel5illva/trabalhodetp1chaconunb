@@ -11,6 +11,10 @@ void CntrApresentacaoProjeto::setServicoPessoa(IServicoPessoa *servico) {
     this->servicoPessoa = servico;
 }
 
+void CntrApresentacaoProjeto::setServicoHistoriaDeUsuario(IServicoHistoriaDeUsuario *servico) {
+    this->servicoHistoriaDeUsuario = servico;
+}
+
 void CntrApresentacaoProjeto::executar(const Email &emailLogado) {
     int opcao;
 
@@ -116,6 +120,26 @@ void CntrApresentacaoProjeto::executar(const Email &emailLogado) {
                     std::cout << "Nome:    " << proj.getNome().getNome() << "\n";
                     std::cout << "Inicio:  " << proj.getInicio().getData() << "\n";
                     std::cout << "Termino: " << proj.getTermino().getData() << "\n";
+                    char verHistorias;
+                    std::cout << "\nDeseja listar as Historias de Usuario deste projeto? (S/N): ";
+                    std::cin >> verHistorias;
+
+                    if (verHistorias == 'S' || verHistorias == 's') {
+                        // Chama o método do serviço de histórias que retorna o vetor filtrado
+                        std::vector<HistoriaDeUsuario> historiasDoProj = servicoHistoriaDeUsuario->listarPorProjeto(proj.getCodigo());
+
+                        if (historiasDoProj.empty()) {
+                            std::cout << "Nenhuma Historia de Usuario vinculada a este projeto.\n";
+                        } else {
+                            std::cout << "\nHistorias de Usuario do Projeto:\n";
+                            for (size_t i = 0; i < historiasDoProj.size(); ++i) {
+                                std::cout << (i + 1) << "- " 
+                                          << historiasDoProj[i].getCodigo().getCodigo() << " | " 
+                                          << historiasDoProj[i].getTitulo().getTexto() << " [" 
+                                          << historiasDoProj[i].getEstado().getEstado() << "]\n";
+                            }
+                        }
+                    }
                 }
             } catch (const std::invalid_argument &e) {
                 std::cout << "\n[Erro de Formato] " << e.what() << "\n";

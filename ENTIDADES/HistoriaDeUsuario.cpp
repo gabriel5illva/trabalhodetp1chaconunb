@@ -69,3 +69,9 @@ void HistoriaDeUsuario::setEmailAssociado(const Email &email) {
 
 Email HistoriaDeUsuario::getEmailAssociado() const {
     return emailAssociado; }
+
+void HistoriaDeUsuario::setProjetoAssociado(const Codigo &codigo) { 
+    this->projetoAssociado = codigo; }
+
+Codigo HistoriaDeUsuario::getProjetoAssociado() const { 
+    return projetoAssociado; }

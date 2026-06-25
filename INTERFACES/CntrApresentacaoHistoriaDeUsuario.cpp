@@ -40,16 +40,15 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
         if (isPO) std::cout << "4 - Excluir uma Historia (D)\n";
         else std::cout << "4 - [BLOQUEADO] Excluir uma Historia (Apenas PO)\n";
         
-        std::cout << "5 - Listar Historias por Projeto\n";
-        std::cout << "6 - Listar Historias por Plano de Sprint\n";
+        std::cout << "5 - Listar Historias por Plano de Sprint\n";
         
         // --- NOVAS OPÇÕES DO MESTRE SCRUM ---
         if (isSM) {
-            std::cout << "7 - Estabelecer Associacao com Pessoa\n";
-            std::cout << "8 - Remover Associacao com Pessoa\n";
+            std::cout << "6 - Estabelecer Associacao com Pessoa\n";
+            std::cout << "7 - Remover Associacao com Pessoa\n";
         } else {
-            std::cout << "7 - [BLOQUEADO] Associar Pessoa (Apenas MESTRE SCRUM)\n";
-            std::cout << "8 - [BLOQUEADO] Remover Associacao (Apenas MESTRE SCRUM)\n";
+            std::cout << "6 - [BLOQUEADO] Associar Pessoa (Apenas MESTRE SCRUM)\n";
+            std::cout << "7 - [BLOQUEADO] Remover Associacao (Apenas MESTRE SCRUM)\n";
         }
 
         std::cout << "0 - Voltar ao Menu Principal\n";
@@ -153,6 +152,9 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
                 } else {
                     std::cout << "\n--- DADOS DA HISTORIA ---\n";
                     std::cout << "Codigo:     " << historia.getCodigo().getCodigo() << "\n";
+                    std::string projAtual = historia.getProjetoAssociado().getCodigo();
+                    std::cout << "Projeto:    " << (projAtual.empty() ? "Nenhum (No Backlog)" : projAtual) << "\n";
+                    std::cout << "Titulo:     " << historia.getTitulo().getTexto() << "\n";
                     std::cout << "Titulo:     " << historia.getTitulo().getTexto() << "\n";
                     std::cout << "Papel:      " << historia.getPapel().getTexto() << "\n";
                     std::cout << "Acao:       " << historia.getAcao().getTexto() << "\n";
@@ -204,6 +206,24 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
                     
                     std::cin.ignore(10000, '\n');
                     std::cout << "Novo Estado (A FAZER, FAZENDO, FEITO): "; std::getline(std::cin, nEstado);
+
+                    char associarProj;
+                    std::string projAtual = historia.getProjetoAssociado().getCodigo();
+                    
+                    std::cout << "\nEsta historia esta atualmente no projeto: " 
+                              << (projAtual.empty() ? "NENHUM" : projAtual) << "\n";
+                    std::cout << "Deseja alterar/estabelecer o Projeto desta historia? (S/N): ";
+                    std::cin >> associarProj;
+                    
+                    if (associarProj == 'S' || associarProj == 's') {
+                        std::string nCodProj;
+                        std::cout << "Digite o Codigo do novo Projeto (Ex: PR123): ";
+                        std::cin >> nCodProj;
+                        
+                        Codigo codP; codP.setCodigo(nCodProj);
+                        historia.setProjetoAssociado(codP); // Associa na entidade
+                    }
+
 
                     Texto tit; tit.setTexto(nTitulo);
                     Texto pap; pap.setTexto(nPapel);
@@ -258,28 +278,9 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
                 std::cout << "\n[Erro de Formato] " << e.what() << "\n";
             }
         }
-        // --- OPÇÃO 5: LISTAR POR PROJETO ---
+        
+        // --- OPÇÃO 5: LISTAR POR SPRINT ---
         else if (opcao == 5) {
-            std::string entCodigoProjeto;
-            std::cout << "\nDigite o Codigo do Projeto para listar as Historias: ";
-            std::cin >> entCodigoProjeto;
-
-            try {
-                Codigo codProj; codProj.setCodigo(entCodigoProjeto);
-                std::cout << "\nConsultando historias vinculadas ao projeto " << entCodigoProjeto << "...\n";
-                if (servicoHistoriaDeUsuario->listarPorProjeto(codProj)) {
-                    std::cout << "[Resultado] Existem historias cadastradas para este projeto.\n";
-                } else {
-                    std::cout << "[Resultado] Nenhuma historia encontrada.\n";
-                }
-            } catch (const std::invalid_argument &e) {
-                std::cout << "\n[Erro de Formato] " << e.what() << "\n";
-            }
-            std::cout << "Pressione ENTER para continuar...";
-            std::cin.ignore(10000, '\n'); std::cin.get();
-        }
-        // --- OPÇÃO 6: LISTAR POR SPRINT ---
-        else if (opcao == 6) {
             std::string entCodigoSprint;
             std::cout << "\nDigite o Codigo do Plano de Sprint para listar as Historias: ";
             std::cin >> entCodigoSprint;
@@ -299,7 +300,7 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
             std::cin.ignore(10000, '\n'); std::cin.get();
         }
 
-        else if (opcao == 7) {
+        else if (opcao == 5) {
             if (!isSM) {
                 std::cout << "\n[Acesso Negado] Apenas o MESTRE SCRUM pode associar pessoas as historias.\n";
                 continue;
@@ -345,8 +346,8 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
             }
         }
 
-        // --- OPÇÃO 8: REMOVER ASSOCIAÇÃO ---
-        else if (opcao == 8) {
+        // --- OPÇÃO 7: REMOVER ASSOCIAÇÃO ---
+        else if (opcao == 7) {
             if (!isSM) {
                 std::cout << "\n[Acesso Negado] Apenas o MESTRE SCRUM pode remover associacoes.\n";
                 continue;

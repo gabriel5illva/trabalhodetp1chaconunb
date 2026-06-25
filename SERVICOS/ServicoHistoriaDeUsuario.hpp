@@ -67,7 +67,7 @@ public:
      * @param codigoProjeto C&oacute;digo do projeto.
      * @return true se houver hist&oacute;rias cadastradas.
      */
-    bool listarPorProjeto(const Codigo &codigoProjeto) override;
+    std::vector<HistoriaDeUsuario> listarPorProjeto(const Codigo &codigoProjeto) override;
 
     /**
      * @brief Lista hist&oacute;rias de usu&aacute;rio associadas a um plano de sprint.

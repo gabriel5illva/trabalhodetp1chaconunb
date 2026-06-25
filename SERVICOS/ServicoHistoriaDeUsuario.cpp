@@ -46,14 +46,24 @@ bool ServicoHistoriaDeUsuario::excluir(const Codigo &codigo) {
     return containerHistoriaDeUsuario->remover(codigo);
 }
 
-bool ServicoHistoriaDeUsuario::listarPorProjeto(const Codigo &codigoProjeto) {
-    (void) codigoProjeto;
+std::vector<HistoriaDeUsuario> ServicoHistoriaDeUsuario::listarPorProjeto(const Codigo &codigoProjeto) {
+    std::vector<HistoriaDeUsuario> historiasFiltradas;
 
     if (containerHistoriaDeUsuario == nullptr) {
-        return false;
+        return historiasFiltradas;
     }
 
-    return !containerHistoriaDeUsuario->listarTodos().empty();
+    // Obtém todas as histórias do container de memória
+    std::vector<HistoriaDeUsuario> todasHistorias = containerHistoriaDeUsuario->listarTodos();
+
+    // Filtra apenas as que pertencem ao código do projeto informado
+    for (const HistoriaDeUsuario &h : todasHistorias) {
+        if (h.getProjetoAssociado().getCodigo() == codigoProjeto.getCodigo()) {
+            historiasFiltradas.push_back(h);
+        }
+    }
+
+    return historiasFiltradas;
 }
 
 bool ServicoHistoriaDeUsuario::listarPorPlanoDeSprint(const Codigo &codigoPlano) {

@@ -1,6 +1,8 @@
 #ifndef ISERVICOHISTORIADEUSUARIO_HPP_INCLUDED
 #define ISERVICOHISTORIADEUSUARIO_HPP_INCLUDED
 
+
+#include <vector>
 #include "../ENTIDADES/HistoriaDeUsuario.hpp"
 #include "../DOMINIOS/Codigo.hpp"
 
@@ -16,7 +18,7 @@ public:
     virtual bool excluir(const Codigo &codigo) = 0;
     
     // Métodos específicos mapeados da sua classe de serviço
-    virtual bool listarPorProjeto(const Codigo &codigoProjeto) = 0;
+    virtual std::vector<HistoriaDeUsuario> listarPorProjeto(const Codigo &codigoProjeto) = 0;
     virtual bool listarPorPlanoDeSprint(const Codigo &codigoPlano) = 0;
     
     virtual ~IServicoHistoriaDeUsuario() = default;

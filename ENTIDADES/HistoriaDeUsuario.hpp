@@ -30,6 +30,7 @@ private:
     Prioridade prioridade;
     Estado estado;
     Email emailAssociado;
+    Codigo projetoAssociado;
 
 public:
     /**
@@ -157,6 +158,21 @@ public:
      * @return Objeto da classe de dominio email.
      */
     Email getEmailAssociado() const;
+
+    /**
+     * @brief Define projeto associado a historia de usuario.
+     * 
+     * @param codigo Objeto da classe de dominio codigo.
+     */
+    void setProjetoAssociado(const Codigo &codigo);
+
+    /**
+     * @brief Retorna o codigo do projeto associado a historia de usuario.
+     * 
+     * @return Objeto da classe de dominio codigo.
+     */
+    Codigo getProjetoAssociado() const;
+
 };
 
 #endif

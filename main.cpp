@@ -19,7 +19,7 @@
 #include "INTERFACES/CntrApresentacaoPessoa.hpp"
 #include "INTERFACES/CntrApresentacaoProjeto.hpp"
 #include "INTERFACES/CntrApresentacaoPlanoDeSprint.hpp"
-#include "INTERFACES/CntrApresentacaoHistoriaDeUsuario.hpp" // INCLUÍDO
+#include "INTERFACES/CntrApresentacaoHistoriaDeUsuario.hpp"
 
 int main() {
     // -----------------------------------------------------------------
@@ -63,6 +63,7 @@ int main() {
     CntrApresentacaoProjeto aprProjeto;
     aprProjeto.setServicoProjeto(&servicoProjeto);
     aprProjeto.setServicoPessoa(&servicoPessoa); 
+    aprProjeto.setServicoHistoriaDeUsuario(&servicoHistoria);
 
     // Módulo de Sprints (Injeta serviço de pessoas para validar Mestre Scrum)
     CntrApresentacaoPlanoDeSprint aprSprint;

@@ -3,7 +3,9 @@
 
 #include "../INTERFACES/IApresentacaoProjeto.hpp"
 #include "../INTERFACES/IServicoProjeto.hpp"
-#include "../INTERFACES/IServicoPessoa.hpp" // Necessário para verificar o Papel do usuário
+#include "../INTERFACES/IServicoPessoa.hpp"
+#include "../INTERFACES/IServicoHistoriaDeUsuario.hpp"
+
 #include "../DOMINIOS/email.hpp"
 #include "../DOMINIOS/codigo.hpp"
 #include "../DOMINIOS/nome.hpp"
@@ -15,6 +17,7 @@ class CntrApresentacaoProjeto : public IApresentacaoProjeto {
 private:
     IServicoProjeto *servicoProjeto;
     IServicoPessoa *servicoPessoa;
+    IServicoHistoriaDeUsuario *servicoHistoriaDeUsuario;
 
 public:
     void executar(const Email &email) override;
@@ -22,6 +25,8 @@ public:
     void setServicoProjeto(IServicoProjeto *servico) override;
 
     void setServicoPessoa(IServicoPessoa *servico); 
+
+    void setServicoHistoriaDeUsuario(IServicoHistoriaDeUsuario *servico);
 };
 
 #endif // CNTRAPRESENTACAOPROJETO_HPP_INCLUDED
