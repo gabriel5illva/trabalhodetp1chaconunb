@@ -1,6 +1,7 @@
 #ifndef ISERVICOPLANODESPRINT_HPP_INCLUDED
 #define ISERVICOPLANODESPRINT_HPP_INCLUDED
 
+#include <vector>
 #include "../ENTIDADES/PlanoDeSprint.hpp"
 #include "../DOMINIOS/Codigo.hpp"
 
@@ -16,7 +17,7 @@ public:
     virtual bool excluir(const Codigo &codigo) = 0;
     
     // Método específico mapeado da sua classe de serviço
-    virtual bool listarPorProjeto(const Codigo &codigoProjeto) = 0;
+    virtual std::vector<PlanoDeSprint> listarPorProjeto(const Codigo &codigoProjeto) = 0;
     
     virtual ~IServicoPlanoDeSprint() = default;
 };

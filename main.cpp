@@ -64,6 +64,7 @@ int main() {
     aprProjeto.setServicoProjeto(&servicoProjeto);
     aprProjeto.setServicoPessoa(&servicoPessoa); 
     aprProjeto.setServicoHistoriaDeUsuario(&servicoHistoria);
+    aprProjeto.setServicoPlanoDeSprint(&servicoPlanoDeSprint);
 
     // Módulo de Sprints (Injeta serviço de pessoas para validar Mestre Scrum)
     CntrApresentacaoPlanoDeSprint aprSprint;

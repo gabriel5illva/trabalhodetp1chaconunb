@@ -20,6 +20,7 @@ private:
     Codigo codigo;
     Texto objetivo;
     Tempo capacidade;
+    Codigo projetoAssociado;
 
 public:
     /**
@@ -63,6 +64,21 @@ public:
      * @return Objeto da classe de dom&iacute;nio Tempo.
      */
     Tempo getCapacidade() const;
+
+    /**
+     * @brief Define projeto associado ao plano de sprint.
+     * 
+     * @param codigo Objeto da classe de dominio Codigo.
+     */
+    void setProjetoAssociado(const Codigo &codigo);
+
+    /**
+     * @brief Retorna codigo do projeto associado ao plano de sprint.
+     * 
+     * @return Objeto da classe de dominio Codigo.
+     */
+    Codigo getProjetoAssociado() const;
+
 };
 
 #endif

@@ -44,8 +44,7 @@ void CntrApresentacaoPlanoDeSprint::executar(const Email &emailLogado) {
             std::cout << "3 - [BLOQUEADO] Editar um Plano de Sprint\n";
             std::cout << "4 - [BLOQUEADO] Excluir um Plano de Sprint\n";
         }
-        
-        std::cout << "5 - Listar Planos de Sprint de um Projeto\n";
+
         std::cout << "0 - Voltar ao Menu Principal\n";
         std::cout << "=========================================\n";
         std::cout << "Escolha uma opcao: ";
@@ -157,6 +156,24 @@ void CntrApresentacaoPlanoDeSprint::executar(const Email &emailLogado) {
                     
                     std::cout << "Nova Capacidade em dias (Atual: " << plano.getCapacidade().getTempo() << "): ";
                     std::cin >> novaCapacidade;
+                    
+                    // Associar Projeto ao Plano de sprint.
+                    char associarProj;
+                    std::string projAtual = plano.getProjetoAssociado().getCodigo();
+                    
+                    std::cout << "\nEste Plano de Sprint esta atualmente no projeto: " 
+                              << (projAtual.empty() ? "NENHUM" : projAtual) << "\n";
+                    std::cout << "Deseja alterar/estabelecer o Projeto deste Plano de Sprint? (S/N): ";
+                    std::cin >> associarProj;
+                    
+                    if (associarProj == 'S' || associarProj == 's') {
+                        std::string nCodProj;
+                        std::cout << "Digite o Codigo do novo Projeto (Ex: PR123): ";
+                        std::cin >> nCodProj;
+                        
+                        Codigo codP; codP.setCodigo(nCodProj);
+                        plano.setProjetoAssociado(codP); // Associa o projeto na entidade
+                    }
 
                     Texto obj;
                     obj.setTexto(novoObjetivo);
@@ -206,30 +223,7 @@ void CntrApresentacaoPlanoDeSprint::executar(const Email &emailLogado) {
                 std::cout << "\n[Erro de Formato] " << e.what() << "\n";
             }
         }
-        // --- OPÇÃO 5: LIST BY PROJECT ---
-        else if (opcao == 5) {
-            std::string entCodigoProjeto;
-            std::cout << "\nDigite o Codigo do Projeto para listar as Sprints: ";
-            std::cin >> entCodigoProjeto;
 
-            try {
-                Codigo codProj; 
-                codProj.setCodigo(entCodigoProjeto);
-
-                std::cout << "\nConsultando planos de sprint vinculados ao projeto " << entCodigoProjeto << "...\n";
-                if (servicoPlanoDeSprint->listarPorProjeto(codProj)) {
-                    std::cout << "[Resultado] Existem planos de sprint cadastrados para este projeto no sistema.\n";
-                } else {
-                    std::cout << "[Resultado] Nenhum plano de sprint encontrado ou o container esta vazio.\n";
-                }
-            } catch (const std::invalid_argument &e) {
-                std::cout << "\n[Erro de Formato] " << e.what() << "\n";
-            }
-            
-            std::cout << "Pressione ENTER para continuar...";
-            std::cin.ignore(10000, '\n');
-            std::cin.get();
-        }
         else {
             std::cout << "\nOpcao invalida. Tente novamente.\n";
         }

@@ -23,3 +23,11 @@ void PlanoDeSprint::setCapacidade(const Tempo &capacidade) {
 Tempo PlanoDeSprint::getCapacidade() const {
     return capacidade;
 }
+
+void PlanoDeSprint::setProjetoAssociado(const Codigo &codigo) {
+    this->projetoAssociado = codigo;
+}
+
+Codigo PlanoDeSprint::getProjetoAssociado() const {
+    return projetoAssociado;
+}

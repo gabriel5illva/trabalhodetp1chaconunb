@@ -65,12 +65,9 @@ public:
      * @brief Lista planos de sprint associados a um projeto.
      *
      * @param codigoProjeto C&oacute;digo do projeto.
-     * @return true se houver planos de sprint cadastrados.
+     * @return vector com objetos da classe PlanoDeSprint, se houver planos de sprint cadastrados.
      */
-    bool listarPorProjeto(const Codigo &codigoProjeto) override;
+    std::vector<PlanoDeSprint> listarPorProjeto(const Codigo &codigoProjeto) override;
 };
 
-#endif /** SERVICO_PLANO_DE_SPRINT_HPP_INCLUDED planos de sprint associados a um projeto.
-        *
-        * @param codigoProjeto C&oacute;digo do projeto.
-        */
+#endif // SERVICO_PLANO_DE_SPRINT_HPP_INCLUDED

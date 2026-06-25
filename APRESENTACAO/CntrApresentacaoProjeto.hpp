@@ -5,6 +5,7 @@
 #include "../INTERFACES/IServicoProjeto.hpp"
 #include "../INTERFACES/IServicoPessoa.hpp"
 #include "../INTERFACES/IServicoHistoriaDeUsuario.hpp"
+#include "../INTERFACES/IServicoPlanoDeSprint.hpp"
 
 #include "../DOMINIOS/email.hpp"
 #include "../DOMINIOS/codigo.hpp"
@@ -18,6 +19,7 @@ private:
     IServicoProjeto *servicoProjeto;
     IServicoPessoa *servicoPessoa;
     IServicoHistoriaDeUsuario *servicoHistoriaDeUsuario;
+    IServicoPlanoDeSprint *servicoPlanoDeSprint;
 
 public:
     void executar(const Email &email) override;
@@ -27,6 +29,8 @@ public:
     void setServicoPessoa(IServicoPessoa *servico); 
 
     void setServicoHistoriaDeUsuario(IServicoHistoriaDeUsuario *servico);
+
+    void setServicoPlanoDeSprint(IServicoPlanoDeSprint *servico);
 };
 
 #endif // CNTRAPRESENTACAOPROJETO_HPP_INCLUDED
