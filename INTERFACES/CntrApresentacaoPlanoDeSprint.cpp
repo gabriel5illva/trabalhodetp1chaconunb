@@ -23,7 +23,7 @@ void CntrApresentacaoPlanoDeSprint::executar(const Email &emailLogado) {
 
     while (true) {
         std::cout << "\n=========================================\n";
-        std::cout << "           GESTÃO PLANO DE SPRINT        \n";
+        std::cout << "           GESTAO PLANO DE SPRINT        \n";
         std::cout << "  Usuario: " << usuarioLogado.getNome().getNome() << "\n";
         std::cout << "  Papel:   " << papelLogado << "\n";
         std::cout << "=========================================\n";
