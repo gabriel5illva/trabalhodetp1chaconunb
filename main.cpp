@@ -71,11 +71,14 @@ int main() {
     aprSprint.setServicoPlanoDeSprint(&servicoPlanoDeSprint);
     aprSprint.setServicoPessoa(&servicoPessoa); 
     aprSprint.setServicoHistoriaDeUsuario(&servicoHistoria);
+    aprSprint.setServicoProjeto(&servicoProjeto);
 
     // Módulo de Histórias de Usuário (Injeta serviço de pessoas para validar PO na criação/exclusão)
     CntrApresentacaoHistoriaDeUsuario aprHistoria;
     aprHistoria.setServicoHistoriaDeUsuario(&servicoHistoria);
     aprHistoria.setServicoPessoa(&servicoPessoa);
+    aprHistoria.setServicoProjeto(&servicoProjeto);
+    aprHistoria.setServicoPlanoDeSprint(&servicoPlanoDeSprint);
 
     // -----------------------------------------------------------------
     // D. CONFIGURAÇÃO DA CONTROLADORA PRINCIPAL (MAESTRO DO SISTEMA)

@@ -12,6 +12,13 @@ void CntrApresentacaoHistoriaDeUsuario::setServicoPessoa(IServicoPessoa *servico
     this->servicoPessoa = servico;
 }
 
+void CntrApresentacaoHistoriaDeUsuario::setServicoProjeto(IServicoProjeto *servico) {
+    this->servicoProjeto = servico;
+}
+void CntrApresentacaoHistoriaDeUsuario::setServicoPlanoDeSprint(IServicoPlanoDeSprint *servico) {
+    this->servicoPlanoDeSprint = servico;
+}
+
 void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
     int opcao;
 
@@ -48,6 +55,22 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
             std::cout << "5 - [BLOQUEADO] Associar Pessoa (Apenas MESTRE SCRUM)\n";
             std::cout << "6 - [BLOQUEADO] Remover Associacao (Apenas MESTRE SCRUM)\n";
         }
+
+        if (isPO || isSM) {
+            std::cout << "7 - Alterar Estado da Historia (Quadro Kanban)\n"; 
+        } else {
+            std::cout << "7 - [BLOQUEADO] Alterar Estado (Apenas PO ou SM)\n";
+        }
+
+        if (isSM) {
+            std::cout << "8 - Mover Historia para Plano de Sprint\n";
+        } else {
+            std::cout << "8 - [BLOQUEADO] Mover para Sprint (Apenas MESTRE SCRUM)\n";
+        }
+        // =========================================================
+
+        std::cout << "0 - Voltar ao Menu Principal\n";
+        std::cout << "=========================================\n";
 
         std::cout << "0 - Voltar ao Menu Principal\n";
         std::cout << "=========================================\n";
@@ -205,44 +228,34 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
                     std::cin.ignore(10000, '\n');
                     std::cout << "Novo Estado (A FAZER, FAZENDO, FEITO): "; std::getline(std::cin, nEstado);
 
-                    std::string projAtual = historia.getProjetoAssociado().getCodigo();
-                    std::string sprintAtual = historia.getSprintAssociada().getCodigo();
+                    char associarProj;
+                    std::string projAtual = historia.getProjetoAssociado().getCodigo(); // Declarado apenas UMA vez!
                     
-                    std::cout << "\n--- STATUS DE VINCULO ATUAL ---";
-                    if (!projAtual.empty()) std::cout << "\nAssociada ao Projeto: " << projAtual;
-                    else if (!sprintAtual.empty()) std::cout << "\nAssociada a Sprint: " << sprintAtual;
-                    else std::cout << "\nStatus: Livre no Backlog Geral";
-                    std::cout << "\n-------------------------------\n";
-
-                    std::cout << "Como deseja gerenciar o vinculo desta historia?\n";
-                    std::cout << "1 - Mover/Associar APENAS a um Projeto\n";
-                    std::cout << "2 - Mover/Associar APENAS a uma Sprint\n";
-                    std::cout << "3 - Remover todos os vinculos (Voltar ao Backlog Geral)\n";
-                    std::cout << "4 - Manter como esta atual\n";
-                    std::cout << "Escolha uma opcao: ";
-                    int opVinculo;
-                    std::cin >> opVinculo;
-
-                    if (opVinculo == 1) {
+                    std::cout << "\nEsta historia esta atualmente no projeto: " 
+                              << (projAtual.empty() ? "NENHUM" : projAtual) << "\n";
+                    std::cout << "Deseja alterar/estabelecer o Projeto desta historia? (S/N): ";
+                    std::cin >> associarProj;
+                    
+                    if (associarProj == 'S' || associarProj == 's') {
                         std::string nCodProj;
-                        std::cout << "Digite o Codigo do Projeto (Ex: PR123): ";
+                        std::cout << "Digite o Codigo do novo Projeto (Ex: PR123): ";
                         std::cin >> nCodProj;
-                        Codigo cProj; cProj.setCodigo(nCodProj);
-                        historia.setProjetoAssociado(cProj); // O setter já limpa a sprint sozinho!
-                    } 
-                    else if (opVinculo == 2) {
-                        std::string nCodSprint;
-                        std::cout << "Digite o Codigo da Sprint (Ex: SP123): ";
-                        std::cin >> nCodSprint;
-                        Codigo cSprint; cSprint.setCodigo(nCodSprint);
-                        historia.setSprintAssociada(cSprint); // O setter já limpa o projeto sozinho!
-                    } 
-                    else if (opVinculo == 3) {
-                        historia.setProjetoAssociado(Codigo()); // Limpa ambos
-                        historia.setSprintAssociada(Codigo());
-                        std::cout << "\n[Aviso] Historia enviada para o Backlog Geral.\n";
-                    }
 
+                        Codigo codP; codP.setCodigo(nCodProj);
+
+                        // VALIDACAO CRÍTICA: Verifica se o projeto existe e se é um Projeto válido
+                        if (servicoProjeto == nullptr) {
+                            std::cout << "\n[Erro Interno] Servico de projetos nao interligado.\n";
+                        } else {
+                            Projeto projValido = servicoProjeto->ler(codP);
+                            if (projValido.getCodigo().getCodigo() == "") {
+                                std::cout << "\n[Erro] Codigo invalido! O projeto nao existe ou nao pertence a classe de Projetos.\n";
+                            } else {
+                                historia.setProjetoAssociado(codP); // Só associa se passar no teste!
+                                std::cout << "\n[Sucesso] Validado! Historia vinculada ao projeto: " << projValido.getNome().getNome() << "\n";
+                            }
+                        }
+                    }
 
                     Texto tit; tit.setTexto(nTitulo);
                     Texto pap; pap.setTexto(nPapel);
@@ -371,6 +384,100 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
                         std::cout << "\n[Sucesso] Associacao removida. A historia agora esta sem dono.\n";
                     } else {
                         std::cout << "\n[Erro] Falha ao remover associacao.\n";
+                    }
+                }
+            } catch (const std::invalid_argument &e) {
+                std::cout << "\n[Erro de Formato] " << e.what() << "\n";
+            }
+        }
+
+
+        // --- OPÇÃO 7: ALTERAR ESTADO ---
+        else if (opcao == 7) {
+
+            if (!isPO && !isSM) {
+                std::cout << "\n[Acesso Negado] Apenas PROPRIETARIO DE PRODUTO ou MESTRE SCRUM podem alterar o estado.\n";
+                continue; // Interrompe e volta ao menu
+            }
+
+            std::string entCodigo;
+            std::cout << "\nDigite o Codigo da Historia que deseja mover: ";
+            std::cin >> entCodigo;
+
+            try {
+                Codigo cod; cod.setCodigo(entCodigo);
+                
+                HistoriaDeUsuario historia = servicoHistoriaDeUsuario->ler(cod);
+
+                if (historia.getCodigo().getCodigo() == "") {
+                    std::cout << "\n[Erro] Historia nao encontrada.\n";
+                } else {
+                    std::string nEstado;
+                    
+                    std::cout << "\nEstado Atual: " << historia.getEstado().getEstado() << "\n";
+                    
+                    std::cin.ignore(10000, '\n');
+                    std::cout << "Novo Estado (A FAZER, FAZENDO, FEITO): "; 
+                    std::getline(std::cin, nEstado);
+
+                    Estado sta; 
+                    sta.setEstado(nEstado);
+
+                    historia.setEstado(sta);
+
+                    if (servicoHistoriaDeUsuario->atualizar(historia)) {
+                        std::cout << "\n[Sucesso] Historia movida para '" << nEstado << "' com sucesso!\n";
+                    } else {
+                        std::cout << "\n[Erro] Falha ao atualizar o estado da historia.\n";
+                    }
+                }
+            } catch (const std::invalid_argument &e) {
+                std::cout << "\n[Erro de Formato] " << e.what() << "\n";
+            }
+        }
+
+        // --- OPÇÃO 8: MOVER PARA SPRINT (APENAS MESTRE SCRUM) ---
+        else if (opcao == 8) {
+            if (!isSM) {
+                std::cout << "\n[Acesso Negado] Apenas o MESTRE SCRUM pode mover historias para Sprints.\n";
+                continue;
+            }
+
+            std::string entCodigo;
+            std::cout << "\nDigite o Codigo da Historia que deseja mover para a Sprint: ";
+            std::cin >> entCodigo;
+
+            try {
+                Codigo cod; cod.setCodigo(entCodigo);
+                HistoriaDeUsuario historia = servicoHistoriaDeUsuario->ler(cod);
+
+                if (historia.getCodigo().getCodigo() == "") {
+                    std::cout << "\n[Erro] Historia nao encontrada.\n";
+                } else {
+                    std::string sprintAtual = historia.getSprintAssociada().getCodigo();
+                    std::string projAtual = historia.getProjetoAssociado().getCodigo();
+
+                    std::cout << "\n--- Status Atual da Historia ---\n";
+                    std::cout << "Projeto: " << (projAtual.empty() ? "Nenhum" : projAtual) << "\n";
+                    std::cout << "Sprint:  " << (sprintAtual.empty() ? "Nenhuma" : sprintAtual) << "\n";
+
+                    std::string nCodSprint;
+                    std::cout << "\nDigite o Codigo do Plano de Sprint para o qual deseja mover (Ex: SP123): ";
+                    std::cin >> nCodSprint;
+                                    
+                    Codigo cSprint; cSprint.setCodigo(nCodSprint);
+                                    
+                    // VALIDACAO CRÍTICA: Verifica se a Sprint existe no banco/memória de Sprints
+                    if (servicoPlanoDeSprint == nullptr) {
+                        std::cout << "\n[Erro Interno] Servico de Sprints nao interligado.\n";
+                    } else {
+                        PlanoDeSprint sprintValida = servicoPlanoDeSprint->ler(cSprint);
+                        if (sprintValida.getCodigo().getCodigo() == "") {
+                            std::cout << "\n[Erro] Codigo invalido! Esta Sprint nao existe no sistema.\n";
+                        } else {
+                            historia.setSprintAssociada(cSprint); // Só move se existir de fato!
+                            std::cout << "\n[Sucesso] Validado! Historia movida para a Sprint com sucesso.\n";
+                        }
                     }
                 }
             } catch (const std::invalid_argument &e) {

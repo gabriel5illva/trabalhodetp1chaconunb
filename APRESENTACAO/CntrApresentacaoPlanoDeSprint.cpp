@@ -16,6 +16,10 @@ void CntrApresentacaoPlanoDeSprint::setServicoHistoriaDeUsuario(IServicoHistoria
     this->servicoHistoriaDeUsuario = servico;
 }
 
+void CntrApresentacaoPlanoDeSprint::setServicoProjeto(IServicoProjeto *servico) {
+    this->servicoProjeto = servico;
+}
+
 void CntrApresentacaoPlanoDeSprint::executar(const Email &emailLogado) {
     int opcao;
 
@@ -200,7 +204,19 @@ void CntrApresentacaoPlanoDeSprint::executar(const Email &emailLogado) {
                         std::cin >> nCodProj;
                         
                         Codigo codP; codP.setCodigo(nCodProj);
-                        plano.setProjetoAssociado(codP); // Associa o projeto na entidade
+                        
+                        // VALIDACAO CRÍTICA: Impede associar a Sprint a um projeto que não existe
+                        if (servicoProjeto == nullptr) {
+                            std::cout << "\n[Erro Interno] Servico de projetos nao interligado.\n";
+                        } else {
+                            Projeto projValido = servicoProjeto->ler(codP);
+                            if (projValido.getCodigo().getCodigo() == "") {
+                                std::cout << "\n[Erro] Codigo invalido! Nao foi encontrado nenhum projeto com esse codigo.\n";
+                            } else {
+                                plano.setProjetoAssociado(codP); // Vinculação segura
+                                std::cout << "\n[Sucesso] Validado! Sprint associada ao projeto: " << projValido.getNome().getNome() << "\n";
+                            }
+                        }
                     }
 
                     Texto obj;

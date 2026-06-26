@@ -4,6 +4,9 @@
 #include "../INTERFACES/IApresentacaoHistoriaDeUsuario.hpp"
 #include "../INTERFACES/IServicoHistoriaDeUsuario.hpp"
 #include "../INTERFACES/IServicoPessoa.hpp" 
+#include "../INTERFACES/IServicoProjeto.hpp"
+#include "../INTERFACES/IServicoPlanoDeSprint.hpp"
+
 #include "../DOMINIOS/Email.hpp"
 #include "../DOMINIOS/Codigo.hpp"
 #include "../DOMINIOS/texto.hpp"
@@ -21,12 +24,16 @@ class CntrApresentacaoHistoriaDeUsuario : public IApresentacaoHistoriaDeUsuario 
 private:
     IServicoHistoriaDeUsuario *servicoHistoriaDeUsuario;
     IServicoPessoa *servicoPessoa;
+    IServicoProjeto *servicoProjeto;
+    IServicoPlanoDeSprint *servicoPlanoDeSprint;
 
 public:
     void executar(const Email &email) override;
     
     void setServicoHistoriaDeUsuario(IServicoHistoriaDeUsuario *servico) override;
     void setServicoPessoa(IServicoPessoa *servico);
+    void setServicoProjeto(IServicoProjeto *servico);
+    void setServicoPlanoDeSprint(IServicoPlanoDeSprint *servico);
 };
 
 #endif // CNTRAPRESENTACAOHISTORIADEUSUARIO_HPP_INCLUDED
