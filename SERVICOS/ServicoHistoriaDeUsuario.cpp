@@ -47,31 +47,25 @@ bool ServicoHistoriaDeUsuario::excluir(const Codigo &codigo) {
 }
 
 std::vector<HistoriaDeUsuario> ServicoHistoriaDeUsuario::listarPorProjeto(const Codigo &codigoProjeto) {
-    std::vector<HistoriaDeUsuario> historiasFiltradas;
+    std::vector<HistoriaDeUsuario> filtradas;
+    if (containerHistoriaDeUsuario == nullptr) return filtradas;
 
-    if (containerHistoriaDeUsuario == nullptr) {
-        return historiasFiltradas;
-    }
-
-    // Obtém todas as histórias do container de memória
-    std::vector<HistoriaDeUsuario> todasHistorias = containerHistoriaDeUsuario->listarTodos();
-
-    // Filtra apenas as que pertencem ao código do projeto informado
-    for (const HistoriaDeUsuario &h : todasHistorias) {
+    for (const HistoriaDeUsuario &h : containerHistoriaDeUsuario->listarTodos()) {
         if (h.getProjetoAssociado().getCodigo() == codigoProjeto.getCodigo()) {
-            historiasFiltradas.push_back(h);
+            filtradas.push_back(h);
         }
     }
-
-    return historiasFiltradas;
+    return filtradas;
 }
 
-bool ServicoHistoriaDeUsuario::listarPorPlanoDeSprint(const Codigo &codigoPlano) {
-    (void) codigoPlano;
+std::vector<HistoriaDeUsuario> ServicoHistoriaDeUsuario::listarPorPlanoDeSprint(const Codigo &codigoPlano) {
+    std::vector<HistoriaDeUsuario> filtradas;
+    if (containerHistoriaDeUsuario == nullptr) return filtradas;
 
-    if (containerHistoriaDeUsuario == nullptr) {
-        return false;
+    for (const HistoriaDeUsuario &h : containerHistoriaDeUsuario->listarTodos()) {
+        if (h.getSprintAssociada().getCodigo() == codigoPlano.getCodigo()) {
+            filtradas.push_back(h);
+        }
     }
-
-    return !containerHistoriaDeUsuario->listarTodos().empty();
+    return filtradas;
 }

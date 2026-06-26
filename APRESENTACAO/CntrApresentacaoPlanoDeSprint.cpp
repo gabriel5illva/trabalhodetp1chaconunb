@@ -12,6 +12,10 @@ void CntrApresentacaoPlanoDeSprint::setServicoPessoa(IServicoPessoa *servico) {
     this->servicoPessoa = servico;
 }
 
+void CntrApresentacaoPlanoDeSprint::setServicoHistoriaDeUsuario(IServicoHistoriaDeUsuario *servico) {
+    this->servicoHistoriaDeUsuario = servico;
+}
+
 void CntrApresentacaoPlanoDeSprint::executar(const Email &emailLogado) {
     int opcao;
 
@@ -125,6 +129,30 @@ void CntrApresentacaoPlanoDeSprint::executar(const Email &emailLogado) {
                     std::cout << "Objetivo:   " << plano.getObjetivo().getTexto() << "\n";
                     std::cout << "Capacidade: " << plano.getCapacidade().getTempo() << " dias\n";
                 }
+                char verHistorias;
+                    std::cout << "\nDeseja listar as Historias de Usuario desta Sprint? (S/N): ";
+                    std::cin >> verHistorias;
+
+                    if (verHistorias == 'S' || verHistorias == 's') {
+                        // Proteção de segurança
+                        if (servicoHistoriaDeUsuario == nullptr) {
+                            std::cout << "\n[Erro Interno] O modulo de historias nao foi interligado.\n";
+                        } else {
+                            std::vector<HistoriaDeUsuario> historiasDaSprint = servicoHistoriaDeUsuario->listarPorPlanoDeSprint(plano.getCodigo());
+
+                            if (historiasDaSprint.empty()) {
+                                std::cout << "Nenhuma Historia de Usuario vinculada a esta Sprint.\n";
+                            } else {
+                                std::cout << "\nBacklog da Sprint:\n";
+                                for (size_t i = 0; i < historiasDaSprint.size(); ++i) {
+                                    std::cout << (i + 1) << "- " 
+                                              << historiasDaSprint[i].getCodigo().getCodigo() << " | " 
+                                              << historiasDaSprint[i].getTitulo().getTexto() << " [" 
+                                              << historiasDaSprint[i].getEstado().getEstado() << "]\n";
+                                }
+                            }
+                        }
+                    }
             } catch (const std::invalid_argument &e) {
                 std::cout << "\n[Erro de Formato] " << e.what() << "\n";
             }

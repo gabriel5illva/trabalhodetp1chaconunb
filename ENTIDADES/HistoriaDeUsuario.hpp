@@ -31,6 +31,7 @@ private:
     Estado estado;
     Email emailAssociado;
     Codigo projetoAssociado;
+    Codigo sprintAssociada;
 
 public:
     /**
@@ -172,6 +173,21 @@ public:
      * @return Objeto da classe de dominio codigo.
      */
     Codigo getProjetoAssociado() const;
+
+    /**
+     * @brief Define sprint associada a historia de usuario.
+     * 
+     * @param codigo Objeto da classe de dominio Codigo.
+     */
+    void setSprintAssociada(const Codigo&codigo);
+
+    /**
+     * @brief Retorna o codigo da sprint associada a historia de usuario.
+     * 
+     * @return Objeto da classe de dominio Codigo.
+     */
+    Codigo getSprintAssociada() const;
+
 
 };
 

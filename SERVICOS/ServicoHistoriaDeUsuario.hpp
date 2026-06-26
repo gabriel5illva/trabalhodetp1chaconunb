@@ -75,7 +75,7 @@ public:
      * @param codigoPlano C&oacute;digo do plano de sprint.
      * @return true se houver hist&oacute;rias cadastradas.
      */
-    bool listarPorPlanoDeSprint(const Codigo &codigoPlano) override;
+    std::vector<HistoriaDeUsuario> listarPorPlanoDeSprint(const Codigo &codigoPlano) override;
 };
 
 #endif // SERVICO_HISTORIA_DE_USUARIO_HPP_INCLUDED

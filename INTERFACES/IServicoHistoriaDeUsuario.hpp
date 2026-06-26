@@ -19,7 +19,7 @@ public:
     
     // Métodos específicos mapeados da sua classe de serviço
     virtual std::vector<HistoriaDeUsuario> listarPorProjeto(const Codigo &codigoProjeto) = 0;
-    virtual bool listarPorPlanoDeSprint(const Codigo &codigoPlano) = 0;
+    virtual std::vector<HistoriaDeUsuario> listarPorPlanoDeSprint(const Codigo &codigoPlano) = 0;
     
     virtual ~IServicoHistoriaDeUsuario() = default;
 };

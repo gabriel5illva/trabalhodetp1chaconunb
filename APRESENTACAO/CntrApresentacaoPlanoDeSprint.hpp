@@ -4,10 +4,11 @@
 #include "../INTERFACES/IApresentacaoPlanoDeSprint.hpp"
 #include "../INTERFACES/IServicoPlanoDeSprint.hpp"
 #include "../INTERFACES/IServicoPessoa.hpp" 
+#include "../INTERFACES/IServicoHistoriaDeUsuario.hpp"
 #include "../DOMINIOS/Email.hpp"
 #include "../DOMINIOS/Codigo.hpp"
-#include "../DOMINIOS/texto.hpp" // INCLUÍDO
-#include "../DOMINIOS/tempo.hpp" // INCLUÍDO
+#include "../DOMINIOS/texto.hpp"
+#include "../DOMINIOS/tempo.hpp"
 #include "../ENTIDADES/PlanoDeSprint.hpp"
 #include "../ENTIDADES/Pessoa.hpp"
 
@@ -19,6 +20,7 @@ class CntrApresentacaoPlanoDeSprint : public IApresentacaoPlanoDeSprint {
 private:
     IServicoPlanoDeSprint *servicoPlanoDeSprint;
     IServicoPessoa *servicoPessoa;
+    IServicoHistoriaDeUsuario *servicoHistoriaDeUsuario;
 
 public:
     void executar(const Email &email) override;
@@ -26,6 +28,8 @@ public:
     void setServicoPlanoDeSprint(IServicoPlanoDeSprint *servico) override;
 
     void setServicoPessoa(IServicoPessoa *servico);
+
+    void setServicoHistoriaDeUsuario(IServicoHistoriaDeUsuario *servico);
 };
 
 #endif // CNTRAPRESENTACAOPLANODESPRINT_HPP_INCLUDED

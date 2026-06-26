@@ -40,15 +40,13 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
         if (isPO) std::cout << "4 - Excluir uma Historia (D)\n";
         else std::cout << "4 - [BLOQUEADO] Excluir uma Historia (Apenas PO)\n";
         
-        std::cout << "5 - Listar Historias por Plano de Sprint\n";
-        
         // --- NOVAS OPÇÕES DO MESTRE SCRUM ---
         if (isSM) {
-            std::cout << "6 - Estabelecer Associacao com Pessoa\n";
-            std::cout << "7 - Remover Associacao com Pessoa\n";
+            std::cout << "5 - Estabelecer Associacao com Pessoa\n";
+            std::cout << "6 - Remover Associacao com Pessoa\n";
         } else {
-            std::cout << "6 - [BLOQUEADO] Associar Pessoa (Apenas MESTRE SCRUM)\n";
-            std::cout << "7 - [BLOQUEADO] Remover Associacao (Apenas MESTRE SCRUM)\n";
+            std::cout << "5 - [BLOQUEADO] Associar Pessoa (Apenas MESTRE SCRUM)\n";
+            std::cout << "6 - [BLOQUEADO] Remover Associacao (Apenas MESTRE SCRUM)\n";
         }
 
         std::cout << "0 - Voltar ao Menu Principal\n";
@@ -207,21 +205,42 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
                     std::cin.ignore(10000, '\n');
                     std::cout << "Novo Estado (A FAZER, FAZENDO, FEITO): "; std::getline(std::cin, nEstado);
 
-                    char associarProj;
                     std::string projAtual = historia.getProjetoAssociado().getCodigo();
+                    std::string sprintAtual = historia.getSprintAssociada().getCodigo();
                     
-                    std::cout << "\nEsta historia esta atualmente no projeto: " 
-                              << (projAtual.empty() ? "NENHUM" : projAtual) << "\n";
-                    std::cout << "Deseja alterar/estabelecer o Projeto desta historia? (S/N): ";
-                    std::cin >> associarProj;
-                    
-                    if (associarProj == 'S' || associarProj == 's') {
+                    std::cout << "\n--- STATUS DE VINCULO ATUAL ---";
+                    if (!projAtual.empty()) std::cout << "\nAssociada ao Projeto: " << projAtual;
+                    else if (!sprintAtual.empty()) std::cout << "\nAssociada a Sprint: " << sprintAtual;
+                    else std::cout << "\nStatus: Livre no Backlog Geral";
+                    std::cout << "\n-------------------------------\n";
+
+                    std::cout << "Como deseja gerenciar o vinculo desta historia?\n";
+                    std::cout << "1 - Mover/Associar APENAS a um Projeto\n";
+                    std::cout << "2 - Mover/Associar APENAS a uma Sprint\n";
+                    std::cout << "3 - Remover todos os vinculos (Voltar ao Backlog Geral)\n";
+                    std::cout << "4 - Manter como esta atual\n";
+                    std::cout << "Escolha uma opcao: ";
+                    int opVinculo;
+                    std::cin >> opVinculo;
+
+                    if (opVinculo == 1) {
                         std::string nCodProj;
-                        std::cout << "Digite o Codigo do novo Projeto (Ex: PR123): ";
+                        std::cout << "Digite o Codigo do Projeto (Ex: PR123): ";
                         std::cin >> nCodProj;
-                        
-                        Codigo codP; codP.setCodigo(nCodProj);
-                        historia.setProjetoAssociado(codP); // Associa na entidade
+                        Codigo cProj; cProj.setCodigo(nCodProj);
+                        historia.setProjetoAssociado(cProj); // O setter já limpa a sprint sozinho!
+                    } 
+                    else if (opVinculo == 2) {
+                        std::string nCodSprint;
+                        std::cout << "Digite o Codigo da Sprint (Ex: SP123): ";
+                        std::cin >> nCodSprint;
+                        Codigo cSprint; cSprint.setCodigo(nCodSprint);
+                        historia.setSprintAssociada(cSprint); // O setter já limpa o projeto sozinho!
+                    } 
+                    else if (opVinculo == 3) {
+                        historia.setProjetoAssociado(Codigo()); // Limpa ambos
+                        historia.setSprintAssociada(Codigo());
+                        std::cout << "\n[Aviso] Historia enviada para o Backlog Geral.\n";
                     }
 
 
@@ -278,28 +297,8 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
                 std::cout << "\n[Erro de Formato] " << e.what() << "\n";
             }
         }
-        
-        // --- OPÇÃO 5: LISTAR POR SPRINT ---
-        else if (opcao == 5) {
-            std::string entCodigoSprint;
-            std::cout << "\nDigite o Codigo do Plano de Sprint para listar as Historias: ";
-            std::cin >> entCodigoSprint;
 
-            try {
-                Codigo codSprint; codSprint.setCodigo(entCodigoSprint);
-                std::cout << "\nConsultando historias vinculadas a sprint " << entCodigoSprint << "...\n";
-                if (servicoHistoriaDeUsuario->listarPorPlanoDeSprint(codSprint)) {
-                    std::cout << "[Resultado] Existem historias cadastradas para esta sprint.\n";
-                } else {
-                    std::cout << "[Resultado] Nenhuma historia encontrada.\n";
-                }
-            } catch (const std::invalid_argument &e) {
-                std::cout << "\n[Erro de Formato] " << e.what() << "\n";
-            }
-            std::cout << "Pressione ENTER para continuar...";
-            std::cin.ignore(10000, '\n'); std::cin.get();
-        }
-
+        // Opção 5: Associar pessoas as historias
         else if (opcao == 5) {
             if (!isSM) {
                 std::cout << "\n[Acesso Negado] Apenas o MESTRE SCRUM pode associar pessoas as historias.\n";
@@ -346,8 +345,8 @@ void CntrApresentacaoHistoriaDeUsuario::executar(const Email &emailLogado) {
             }
         }
 
-        // --- OPÇÃO 7: REMOVER ASSOCIAÇÃO ---
-        else if (opcao == 7) {
+        // --- OPÇÃO 6: REMOVER ASSOCIAÇÃO ---
+        else if (opcao == 6) {
             if (!isSM) {
                 std::cout << "\n[Acesso Negado] Apenas o MESTRE SCRUM pode remover associacoes.\n";
                 continue;

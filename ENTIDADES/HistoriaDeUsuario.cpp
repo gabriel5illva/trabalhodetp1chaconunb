@@ -65,13 +65,34 @@ Estado HistoriaDeUsuario::getEstado() const {
 }
 
 void HistoriaDeUsuario::setEmailAssociado(const Email &email) {
-    this->emailAssociado = email; }
+    this->emailAssociado = email; 
+}
 
 Email HistoriaDeUsuario::getEmailAssociado() const {
-    return emailAssociado; }
+    return emailAssociado; 
+}
 
 void HistoriaDeUsuario::setProjetoAssociado(const Codigo &codigo) { 
-    this->projetoAssociado = codigo; }
-
+this->projetoAssociado = codigo;
+    
+    // REGRA: Se foi passado um código de projeto válido, desvincula da Sprint imediatamente
+    if (!codigo.getCodigo().empty()) {
+        this->sprintAssociada = Codigo(); // Atribui um código limpo/vazio
+    }
+}
 Codigo HistoriaDeUsuario::getProjetoAssociado() const { 
-    return projetoAssociado; }
+    return projetoAssociado; 
+}
+
+void HistoriaDeUsuario::setSprintAssociada(const Codigo &codigo) {
+    this->sprintAssociada = codigo;
+    
+    // REGRA: Se foi passado um código de sprint válido, desvincula do Projeto imediatamente
+    if (!codigo.getCodigo().empty()) {
+        this->projetoAssociado = Codigo(); // Atribui um código limpo/vazio
+    }
+}
+
+Codigo HistoriaDeUsuario::getSprintAssociada() const {
+    return sprintAssociada;
+}

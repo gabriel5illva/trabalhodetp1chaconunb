@@ -165,25 +165,6 @@ void CntrApresentacaoProjeto::executar(const Email &emailLogado) {
                         }
                     }
 
-                    char verSprints;
-
-                    std::cout << "\nDeseja listar os Planos de Sprint deste projeto? (S/N): ";
-                    std::cin >> verSprints;
-
-                    if (verSprints == 'S' || verSprints == 's') {
-                        if (servicoPlanoDeSprint == nullptr) {
-                            std::cout << "\n[Erro Interno] O modulo de planos de sprint nao foi interligado.\n";
-                        } else {
-                            bool existemSprints =
-                                servicoPlanoDeSprint->listarPorProjeto(proj.getCodigo());
-
-                            if (!existemSprints) {
-                                std::cout << "Nenhum Plano de Sprint vinculado a este projeto.\n";
-                            } else {
-                                std::cout << "Existem Planos de Sprint vinculados a este projeto.\n";
-                            }
-                        }
-                    }
                 }
             } catch (const std::invalid_argument &e) {
                 std::cout << "\n[Erro de Formato] " << e.what() << "\n";
