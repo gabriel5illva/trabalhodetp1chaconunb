@@ -164,6 +164,30 @@ void CntrApresentacaoProjeto::executar(const Email &emailLogado) {
                             }
                         }
                     }
+                    
+                    char verSprints;
+                    std::cout << "\nDeseja listar os Planos de Sprint deste projeto? (S/N): ";
+                    std::cin >> verSprints;
+
+                    if (verSprints == 'S' || verSprints == 's') {
+                        // Proteção de segurança
+                        if (servicoPlanoDeSprint == nullptr) {
+                            std::cout << "\n[Erro Interno] O modulo de planos de sprint nao foi interligado.\n";
+                        } else {
+                            std::vector<PlanoDeSprint> sprintsDoProj = servicoPlanoDeSprint->listarPorProjeto(proj.getCodigo());
+
+                            if (sprintsDoProj.empty()) {
+                                std::cout << "Nenhum Plano de Sprint vinculado a este projeto.\n";
+                            } else {
+                                std::cout << "\nPlanos de Sprint do Projeto:\n";
+                                for (size_t i = 0; i < sprintsDoProj.size(); ++i) {
+                                    std::cout << (i + 1) << "- " 
+                                              << sprintsDoProj[i].getCodigo().getCodigo() << " | " 
+                                              << sprintsDoProj[i].getObjetivo().getTexto() << "\n";
+                                }
+                            }
+                        }
+                    }
 
                 }
             } catch (const std::invalid_argument &e) {
