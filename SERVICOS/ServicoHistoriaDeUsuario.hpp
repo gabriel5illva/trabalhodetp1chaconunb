@@ -65,7 +65,7 @@ public:
      * @brief Lista hist&oacute;rias de usu&aacute;rio associadas a um projeto.
      *
      * @param codigoProjeto C&oacute;digo do projeto.
-     * @return true se houver hist&oacute;rias cadastradas.
+     * @return vetor com historias associadas ao projeto.
      */
     std::vector<HistoriaDeUsuario> listarPorProjeto(const Codigo &codigoProjeto) override;
 
@@ -73,9 +73,18 @@ public:
      * @brief Lista hist&oacute;rias de usu&aacute;rio associadas a um plano de sprint.
      *
      * @param codigoPlano C&oacute;digo do plano de sprint.
-     * @return true se houver hist&oacute;rias cadastradas.
+     * @return vetor com historias associadas ao plano de sprint.
      */
     std::vector<HistoriaDeUsuario> listarPorPlanoDeSprint(const Codigo &codigoPlano) override;
+
+    /**
+     * @brief Lista hist&oacute;rias de usu&aacute;rio associadas a uma pessoa.
+     *
+     * @param email email da pessoa.
+     * @return vetor com historias associadas a pessoa.
+     */
+    std::vector<HistoriaDeUsuario> listarPorPessoa(const Email &email) override;
+
 };
 
 #endif // SERVICO_HISTORIA_DE_USUARIO_HPP_INCLUDED

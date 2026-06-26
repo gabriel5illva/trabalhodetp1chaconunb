@@ -69,3 +69,22 @@ std::vector<HistoriaDeUsuario> ServicoHistoriaDeUsuario::listarPorPlanoDeSprint(
     }
     return filtradas;
 }
+
+std::vector<HistoriaDeUsuario> ServicoHistoriaDeUsuario::listarPorPessoa(const Email &email) {
+    std::vector<HistoriaDeUsuario> filtradas;
+
+    if (containerHistoriaDeUsuario == nullptr) {
+        return filtradas;
+    }
+
+    std::vector<HistoriaDeUsuario> todasHistorias = containerHistoriaDeUsuario->listarTodos();
+
+    for (const HistoriaDeUsuario &h : todasHistorias) {
+        // Compara o e-mail gravado na história com o e-mail pesquisado
+        if (h.getEmailAssociado().getEmail() == email.getEmail()) {
+            filtradas.push_back(h);
+        }
+    }
+
+    return filtradas;
+}

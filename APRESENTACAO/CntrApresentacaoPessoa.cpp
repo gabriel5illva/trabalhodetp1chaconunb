@@ -12,6 +12,10 @@ void CntrApresentacaoPessoa::setServicoProjeto(IServicoProjeto *servico) {
     this->servicoProjeto = servico;
 }
 
+void CntrApresentacaoPessoa::setServicoHistoriaDeUsuario(IServicoHistoriaDeUsuario *servico) {
+    this->servicoHistoriaDeUsuario = servico;
+}
+
 void CntrApresentacaoPessoa::cadastrar() {
     // Mantemos o método cadastrar inicial intacto para o menu deslogado
     std::string entradaEmail, entradaSenha, entradaNome, entradaPapel;
@@ -173,8 +177,34 @@ bool CntrApresentacaoPessoa::executar(const Email &emailLogado) {
                                   << projetosDaPessoa[i].getCodigo().getCodigo() << " | " 
                                   << projetosDaPessoa[i].getNome().getNome() << "\n";
                     }
+
+                    char verHistorias;
+
+                    std::cout << "\nDeseja listar as Historias de Usuario atribuidas a esta pessoa? (S/N): ";
+                    std::cin >> verHistorias;
+
+                    if (verHistorias == 'S' || verHistorias == 's') {
+                        if (servicoHistoriaDeUsuario == nullptr) {
+                            std::cout << "\n[Erro Interno] O modulo de historias nao foi interligado.\n";
+                        } else {
+                            std::vector<HistoriaDeUsuario> historiasDaPessoa = servicoHistoriaDeUsuario->listarPorPessoa(encontrada.getEmail());
+
+                            if (historiasDaPessoa.empty()) {
+                                std::cout << "Nenhuma Historia de Usuario atribuida a este email.\n";
+                            } else {
+                                std::cout << "\nHistorias atribuidas a " << encontrada.getNome().getNome() << ":\n";
+                                for (size_t i = 0; i < historiasDaPessoa.size(); ++i) {
+                                    std::cout << (i + 1) << "- " 
+                                              << historiasDaPessoa[i].getCodigo().getCodigo() << " | " 
+                                              << historiasDaPessoa[i].getTitulo().getTexto() << " [" 
+                                              << historiasDaPessoa[i].getEstado().getEstado() << "]\n";
+                                }
+                            }
+                        }
+                    }  
                 }
             }
+            
                 }
             } catch (const std::invalid_argument &e) {
                 std::cout << "\n[Erro de Formato] " << e.what() << "\n";

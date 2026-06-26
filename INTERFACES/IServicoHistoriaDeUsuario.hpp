@@ -5,6 +5,7 @@
 #include <vector>
 #include "../ENTIDADES/HistoriaDeUsuario.hpp"
 #include "../DOMINIOS/Codigo.hpp"
+#include "../DOMINIOS/Email.hpp"
 
 /**
  * @class IServicoHistoriaDeUsuario
@@ -20,6 +21,7 @@ public:
     // Métodos específicos mapeados da sua classe de serviço
     virtual std::vector<HistoriaDeUsuario> listarPorProjeto(const Codigo &codigoProjeto) = 0;
     virtual std::vector<HistoriaDeUsuario> listarPorPlanoDeSprint(const Codigo &codigoPlano) = 0;
+    virtual std::vector<HistoriaDeUsuario> listarPorPessoa(const Email &email) = 0;
     
     virtual ~IServicoHistoriaDeUsuario() = default;
 };
